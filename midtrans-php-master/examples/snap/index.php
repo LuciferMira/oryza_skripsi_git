@@ -10,7 +10,7 @@
 
 <h4>Total: Rp 94.000,00</h4>
 
-<form action="<?php echo $base ?>checkout-process.php" method="POST">
+<form action="checkout-process.php" method="POST">
     <input type="hidden" name="amount" value="94000"/>
     <input type="submit" value="Confirm">
 </form>

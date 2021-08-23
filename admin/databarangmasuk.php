@@ -1,31 +1,4 @@
-<?php 
-require_once("head.php"); 
-require_once("../config/koneksi.php");
-    
-if(isset($_POST['btn_simpan'])){
-  $barang = $_POST['nama_barang'];
-  $berat = $_POST['berat'];
-  $tglmsk = $_POST['tanggal_masuk'];
-  $jml = $_POST['jumlah'];
-  $harga = $_POST['harga'];
-  $total = $_POST['total_bayar'];
-
-
-  
-  
-      $query =mysqli_query($koneksi,"INSERT INTO barang_masuk VALUES('$id','$nama_barang','$berat','$tanggal_masuk','$jumlah','$harga','$total')");
-        if($query){
-          header('location:user.php?status=input_berhasil');
-        }else{
-          header('location:user.php?status=input_gagal');
-        }
-
-       
-  }
-
-  ?>
-
-
+<?php require_once("head.php"); ?>
         <div class="breadcrumbs">
             <div class="breadcrumbs-inner">
                 <div class="row m-0">
@@ -66,7 +39,7 @@ if(isset($_POST['btn_simpan'])){
                                     <div class="col-lg-2">
                                         <a href="cetakmasuk.php" class="btn btn-success btn-block" style="color: white;"><i class="fa fa-print"></i> Cetak</a>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -75,13 +48,10 @@ if(isset($_POST['btn_simpan'])){
                                     <thead>
                                         <tr>
                                             <th class="serial">No</th>
-                                            <th>Id Barang</th>
+                                            <!-- <th>Id Barang</th> -->
                                             <th>Nama Barang</th>
                                             <th>Tanggal Masuk</th>
-                                            <th>Berat</th>
-                                            <th>Jumlah</th>
-                                            <th>Harga Satua</th>
-                                            <th>Total Pembelian</th>
+                                            <th>Jumlah/Qty</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -89,47 +59,40 @@ if(isset($_POST['btn_simpan'])){
 
                                         <?php
                                             $no = 1;
-                                            $call = mysqli_query($koneksi, "SELECT * FROM barang_masuk ORDER BY id");
-                                            $row = mysqli_num_rows($call);
-                                            if($row>0){
-                                                while($data = mysqli_fetch_array($call)){
-
-                                                
-                                        ?>
-                                        <tr>
-                                            <td class="serial">1.</td>
-                                            <td> #5469 </td>
-                                            <td><span class="name"><?php echo $data['nama_barang']?></span> </td>
-                                            <td><span class="product" type="date" name="tanggal_lahir" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"><?php echo $data['tanggal_masuk']?></span> </td>
-                                            <td><span class="count"><?php echo $data['berat']?></span></td>
-                                            <td><span class="count"><?php echo $data['jumlah']?></span></td>
-                                            <td><span class="count"><?php echo $data['harga']?></span></td>
-                                            <td><span class="count"><?php echo $data['total_bayar']?></span></td>
-                                            <td>
-                                              <a href="detailmasuk.php?id=<?php echo $data['id']; ?>" class="badge badge-pending"><i class="fas fa-list"></i>Detail</a>
-                                              <a href="editmasuk.php?id=<?php echo $data['id']; ?>" class="badge badge-warning"><i class="fas fa-edit"></i>Edit</a>
-                                              <a href="dltbarangmasuk.php?id=<?=$data['id'];?>" class="badge badge-danger"><i class="fas fa-trash"></i>Hapus</a>
-                                            </td>
-                                        </tr>
-                                        <?php }}else{ ?>
-                                        <tr>
-                                            <td><span class="count">Tidak Ada Data</span> </td>
-                                        </tr>
-                                    <?php } ?>
+                                            $call = mysqli_query($koneksi, "SELECT barang_masuk.id,produk.nama as nama_produk,barang_masuk.id_produk as id_produk,tanggal_masuk, jumlah FROM barang_masuk
+                                            INNER JOIN  produk ON produk.id = barang_masuk.id_produk ORDER BY tanggal_masuk ASC");
+                                            if(mysqli_num_rows($call)==0){?>
+                                              <tr>
+                                                  <td class="serial" colspan="5"><center>Tidak Ada Data</center></td>
+                                              </tr>
+                                      <?php }else{
+                                        while($data = mysqli_fetch_array($call)){
+                                    ?>
+                                    <tr>
+                                        <td class="serial"><?= $no++ ?></td>
+                                        <!-- <td><?= $data['id_produk'] ?></td> -->
+                                        <td><span class="name"><?php echo $data['nama_produk']?></span></td>
+                                        <td><span class="name"><?php echo $data['tanggal_masuk']?></span></td>
+                                        <td><span class="count"><?php echo $data['jumlah']?></span></td>
+                                        <td>
+                                          <a href="detailmasuk.php?id=<?php echo $data['id']; ?>" class="badge badge-pending"><i class="fa fa-list"></i> Detail</a>
+                                        </td>
+                                    </tr>
+                                  <?php } }?>
                                     </tbody>
                                 </table>
                             </div> <!-- /.table-stats -->
                         </div>
                     </div>
-                                  
+
                             </table>
                         </div>
                     </div>
                 </div>
 
-                       
+
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
-<?php require_once("footer.php"); 
-?>   
+<?php require_once("footer.php");
+?>

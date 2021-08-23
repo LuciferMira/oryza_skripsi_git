@@ -1,30 +1,5 @@
-<?php require_once("head.php"); 
-        // <!-- Header-->
-require_once("../config/koneksi.php");
-    if(isset($_POST['btn_simpan'])){
-  $gambar = $_POST['gambar'];
-  $nama = $_POST['nama'];
-  $harga = $_POST['harga'];
-  $berat = $_POST['berat'];
-  $stok = $_POST['stok'];
-  $deskripsi = $_POST['deskripsi'];
-  $kategori = $_POST['kategori'];
-
-
-  
-  
-      $query =mysqli_query($koneksi,"INSERT INTO user VALUES('$id','$gambar','$nama','$harga','$berat','$stok','$deskripsi','$kategori')");
-        if($query){
-          header('location:user.php?status=input_berhasil');
-        }else{
-          header('location:user.php?status=input_gagal');
-        }
-
-       
-  }
+<?php require_once("head.php");
   ?>
-
-
         <div class="breadcrumbs">
             <div class="breadcrumbs-inner">
                 <div class="row m-0">
@@ -65,7 +40,7 @@ require_once("../config/koneksi.php");
                                     <div class="col-lg-2">
                                          <a href="cetakproduk.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -93,14 +68,14 @@ require_once("../config/koneksi.php");
                                           ?>
 
                                         <tr>
-                                            <td class="serial">1.</td>
-                                            <td>  <span class="name">Br001</span> </td>
+                                            <td class="serial"><?= $no++ ?></td>
+                                            <td>  <span class="name"><?= $data['id'] ?></span> </td>
                                              <td class="avatar">
-                                                <div class="round-img">
-                                                    <a href="#"><?=$data['gambar'];?><img class="rounded-circle" src="images/avatar/1.jpg" alt=""></a>
-                                                </div>
+                                                <!-- <div class="round-img"> -->
+                                                    <img src="images/produk/<?= $data['gambar']?>" alt="" style="width:500px;height:50px;">
+                                                <!-- </div> -->
                                             </td>
-                                            <td>  <span class="name"><?=$data['nama'];?></span> 
+                                            <td>  <span class="name"><?=$data['nama'];?></span>
                                             <td><span class="count"><?=$data['harga'];?></span></td>
                                             <td> <span class="product"><?=$data['berat'];?></span> </td>
                                             <td><span class="count"><?=$data['stok'];?></span></td>
@@ -109,15 +84,15 @@ require_once("../config/koneksi.php");
 
 
                                             <td>
-              <a href="detailproduk.php?id=<?=$data['id'];?>" class="badge badge-pending"><i class="fas fa-list"></i>Detail</a>
-              <a href="editproduk.php?id=<?=$data['id'];?>" class="badge badge-warning"><i class="fas fa-edit"></i>Edit</a>
-              <a href="dltproduk.php?id=<?=$data['id'];?>" class="badge badge-danger"><i class="fas fa-trash"></i>Hapus</a>
+              <a href="detailproduk.php?id=<?=$data['id'];?>" class="badge badge-pending"><i class="fa fa-list"></i> Detail</a>
+              <a href="editproduk.php?id=<?=$data['id'];?>" class="badge badge-warning"><i class="fa fa-edit"></i> Edit</a>
+              <a href="dltproduk.php?id=<?=$data['id'];?>" class="badge badge-danger"><i class="fa fa-trash"></i> Hapus</a>
             </td>
                                             </td>
                                         </tr>
-                                        
-                                        
-                                           
+
+
+
                                         </tr>
                                     </tbody>
                                      <?php
@@ -127,7 +102,7 @@ require_once("../config/koneksi.php");
                             </div> <!-- /.table-stats -->
                         </div>
                     </div>
-                                  
+
                             </table>
                         </div>
                     </div>
@@ -135,11 +110,12 @@ require_once("../config/koneksi.php");
 
                 <div class="col-lg-6">
                     <div class="card">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             <strong class="card-title">Stripped Table</strong>
-                        </div>
-                       
+                        </div> -->
+
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
-<?php require_once("footer.php"); ?>   
+
+<?php require_once("footer.php"); ?>

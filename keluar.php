@@ -1,7 +1,5 @@
 <?php
-session_start();
-if($_SESSION['nama_pengguna']!=null){
-	session_destroy();
-	header('location:index.php?stat=logout_berhasil');
-}
+  session_start();
+  session_destroy();
+  header('location:index.php?status=logout_berhasil');
 ?>

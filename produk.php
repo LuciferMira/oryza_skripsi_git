@@ -1,5 +1,4 @@
 <?php require_once("head.php");
-  require_once('config/koneksi.php');
   if(!isset($_SESSION['cart'])){
     $_SESSION['cart'] = array();
   }
@@ -14,12 +13,13 @@ Pada salah satu tahap pemrosesan hasil panen padi, gabah ditumbuk dengan lesung 
     }else{
       $judul = ucwords($kategori);
       $query =mysqli_query($koneksi, "SELECT * from produk where kategori='dedak'");
-      $deskripsi = "INI DEDAK";      
+      $deskripsi = "Ini Dedak";
     }
     // $data =mysqli_fetch_array($query);
   }else{
     $judul = "Produk";
     $query =mysqli_query($koneksi, "SELECT * from produk");
+    $deskripsi = "Semua produk";
     // $data =mysqli_fetch_array($query);
   }
 ?>
@@ -59,23 +59,24 @@ Pada salah satu tahap pemrosesan hasil panen padi, gabah ditumbuk dengan lesung 
 
               <div class="entry-img">
                 <a href="detailproduk.php?id=<?=$data['id']?>">
-                  <img src="img/Premium.jpg" alt="" class="img-fluid">
+                  <img src="admin/images/produk/<?= $data['gambar'] ?>" alt="" class="img-fluid">
                 </a>
-                
+
               </div>
 
               <h2 class="entry-title">
                 <a href="detailproduk.php?id=<?=$data['id']?>"><?=$data['nama']?></a>
               </h2>
 
-              
+
 
               <div class="entry-content">
                 <p>
                 <?=$data['deskripsi']?>
                 </p>
                 <div class="read-more">
-                  <a href="detailproduk.php?id=<?=$data['id']?>">Baca Selengkapnya</a>
+                  <!-- <a href="detailproduk.php?id=<?=$data['id']?>">Baca Selengkapnya</a> -->
+                  <a href="cart.php?id=<?= $data['id'] ?>&action=add">Pesan</a>
                 </div>
               </div>
 
@@ -84,7 +85,7 @@ Pada salah satu tahap pemrosesan hasil panen padi, gabah ditumbuk dengan lesung 
   <?php
             }
           ?>
-        
+
 
         </div>
 

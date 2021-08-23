@@ -1,3 +1,8 @@
+<?php
+  ob_start();
+  require_once('config/koneksi.php');
+  require_once('session.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,33 +40,6 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
-<?php 
-
-  require_once('config/koneksi.php'); 
-  require_once('session.php');
-  //require_once('session.php');
-  // if(isset($_POST['masuk'])){
-  //   $email = $_POST['email'];
-  //   $password = md5($_POST['password']);
-  //   $query = mysqli_query($koneksi, "select * from user where email='$email' and password='$password'");
-  //   $num = mysqli_num_rows($query);
-  //   $data = mysqli_fetch_array($query);
-  //   if($num>0){
-  //     session_start();
-  //     $_SESSION['nama_pengguna'] = $data['nama_pengguna'];
-  //     $_SESSION['email'] = $data['email'];
-  //     $_SESSION['password'] = $data['password'];
-  //     $_SESSION['tempat_lahir'] = $data['tempat_lahir'];
-  //     $_SESSION['tanggal_lahir'] = $data['tanggal_lahir'];
-  //     $_SESSION['alamat'] = $data['alamat'];
-  //     $_SESSION['telepon'] = $data['telepon'];
-     
-  //     header('location:home.php?stat=login_berhasil');
-  //   }else{
-  //     // header('location:admin.php?stat=login_gagal');
-  //   }
-  // }
-?>
 <body>
 
   <!-- ======= Header ======= -->
@@ -103,17 +81,17 @@
           <li>
             <a href="cart.php">
               <i class="icofont-cart"></i> Belanjaanku</a>
-            <li>  
+            <li>
               <a href="riwayat.php">
               <i class="icofont-ui-note"></i> Riwayat Belanja</a>
             </li>
           </li>
-          <?php if(isset($_SESSION['nama_pengguna'])){?>
+          <?php if(isset($_SESSION['nama'])){?>
           <li class="get-started"><a href="keluar.php">Keluar</a></li>
           <?php }else{ ?>
           <li class="get-started"><a href="masuk.php">Masuk</a></li>
           <?php } ?>
-        
+
         </ul>
       </nav><!-- .nav-menu -->
 

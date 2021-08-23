@@ -1,4 +1,4 @@
-<?php require_once("head.php"); 
+<?php require_once("head.php");
         // <!-- Header-->
 require_once("../config/koneksi.php");
     if(isset($_POST['btn_simpan'])){
@@ -9,8 +9,8 @@ require_once("../config/koneksi.php");
   $deskripsi = $_POST['alamat'];
   $deskripsi = $_POST['telepon'];
 
-  
-  
+
+
       $query =mysqli_query($koneksi,"INSERT INTO user VALUES('$id','$nama_pengguna','$email','$tempat_lahir','$tanggal_lahir','$alamat','$telepon')");
         if($query){
           header('location:user.php?status=input_berhasil');
@@ -18,7 +18,7 @@ require_once("../config/koneksi.php");
           header('location:user.php?status=input_gagal');
         }
 
-       
+
   }
   ?>
 
@@ -64,7 +64,7 @@ require_once("../config/koneksi.php");
                                     <div class="col-lg-2">
                                         <a href="cetak.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -89,8 +89,8 @@ require_once("../config/koneksi.php");
                                           $tampil = mysqli_query($koneksi, " SELECT * from user");
                                           while($data = mysqli_fetch_array($tampil)) {
                                           ?>
-                                          
-                                        
+
+
                                           <tr>
                                            <td><?php echo$no;?></td>
                                            <td><?=$data['id']?></td>
@@ -102,31 +102,31 @@ require_once("../config/koneksi.php");
                                             <td><?=$data['telepon']?></td>
 
                                             <td>
-              <a href="detailuser.php?id=<?=$data['id'];?>" class="badge badge-pending"><i class="fas fa-list"></i>Detail</a>
-              <a href="dltuser.php?id=<?=$data['id'];?>" class="badge badge-warning"><i class="fas fa-trash"></i>Hapus</a>
+              <a href="detailuser.php?id=<?=$data['id'];?>" class="badge badge-pending"><i class="fa fa-list"></i> Detail</a>
+              <a href="dltuser.php?id=<?=$data['id'];?>" class="badge badge-warning"><i class="fa fa-trash"></i> Hapus</a>
             </td>
                                             <?php
                                         }
                                         ?>
-                                            
+
                                     </tbody>
                                 </table>
                             </div> <!-- /.table-stats -->
                         </div>
                     </div>
-                                  
+
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <!-- <div class="col-lg-6">
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">Stripped Table</strong>
-                        </div>
-                       
+                        </div> -->
+
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
-<?php require_once("footer.php"); ?>   
+<?php require_once("footer.php"); ?>

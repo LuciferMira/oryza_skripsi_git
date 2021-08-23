@@ -1,4 +1,4 @@
-<?php require_once("head.php"); 
+<?php require_once("head.php");
         // <!-- Header-->
      require_once("../config/koneksi.php");
     if(isset($_POST['btn_simpan'])){
@@ -8,8 +8,8 @@
   $alamat = $_POST['alamat'];
   $deskripsi = $_POST['telepon'];
 
-  
-  
+
+
       $query =mysqli_query($koneksi,"INSERT INTO transaksi VALUES('$id','$nama','$jumlah','$total','$alamat','$telepon')");
         if($query){
           header('location:user.php?status=input_berhasil');
@@ -17,7 +17,7 @@
           header('location:user.php?status=input_gagal');
         }
 
-       
+
   }
   ?>
 
@@ -55,11 +55,11 @@
                                     <div class="col-lg-8">
                                         <h4 class="card-title">Data Transaksi</h4>
                                     </div>
-                                    
+
                                     <div class="col-lg-4">
                                          <a href="cetaktransaksi.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -96,9 +96,9 @@
                                             <td><span class="name"><?=$data['alamat'];?></span> </td>
                                             <td><span class="name"><?=$data['telepon'];?></span> </td>
                                             <td>
-                                              <a href="detailtransaksi.php?id=<?php echo $data['id_pesanan']; ?>" class="badge badge-pending"><i class="fas fa-list"></i>Detail</a>
-                                              <a href="edittransaksi.php" class="badge badge-warning"><i class="fas fa-edit"></i>Edit</a>
-                                              <a href="dltbrg.php?id=<?=$data['id_barang'];?>" class="badge badge-danger"><i class="fas fa-trash"></i>Hapus</a>
+                                              <a href="detailtransaksi.php?id=<?php echo $data['id_pesanan']; ?>" class="badge badge-pending"><i class="fa fa-list"></i> Detail</a>
+                                              <a href="edittransaksi.php" class="badge badge-warning"><i class="fa fa-edit"></i> Edit</a>
+                                              <a href="dltbrg.php?id=<?=$data['id_barang'];?>" class="badge badge-danger"><i class="fa fa-trash"></i> Hapus</a>
                                             </td>
                                         </tr>
                                         <?php }}else{ ?>
@@ -111,7 +111,7 @@
                             </div> <!-- /.table-stats -->
                         </div>
                     </div>
-                                  
+
                             </table>
                         </div>
                     </div>
@@ -122,8 +122,8 @@
                         <div class="card-header">
                             <strong class="card-title">Stripped Table</strong>
                         </div>
-                       
+
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
-<?php require_once("footer.php"); ?>   
+<?php require_once("footer.php"); ?>

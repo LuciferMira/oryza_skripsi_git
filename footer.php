@@ -23,8 +23,8 @@
               <li><a href="cart.php">Belanjaanku</a></li>
               <li><a href="riwayat.php">Riwayat Belanja</a></li>
 
-              
-      
+
+
             </ul>
           </div>
 
@@ -34,7 +34,7 @@
 
               Dusun Cilimbangan. Desa Naluk.<br>
               Kota Sumedang, Jawa Barat<br>
-          
+
               <strong>Email:</strong> pabrikberasoryza@gmail.com<br>
             </p>
 
@@ -42,10 +42,10 @@
                <a href="https://api.whatsapp.com/send?phone=6285920681351" class="whatsapp"><i class="icofont-whatsapp"></i></a>
               <a href="https://www.instagram.com/cv.oryza/" class="instagram"><i class="icofont-instagram"></i></a>
               <a href="https://goo.gl/maps/uodLDkfH5vwroRTv9" class="google-plus"><i class="icofont-google-map"></i></a>
-              
-            
 
-              
+
+
+
             </div>
 
           </div>

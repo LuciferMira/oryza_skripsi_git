@@ -2,11 +2,11 @@
 
   if(isset($_GET['id'])){
     $id=$_GET['id'];
-    $query =mysqli_query($koneksi, " DELETE  from admin where id = '$id' ");
+    $query =mysqli_query($koneksi, "DELETE FROM user WHERE id = '$id'");
     if($query){
-      header('location:datauser.php?stat=Hapus_berhasil');
+      header('location:dataadmin.php?stat=hapus_berhasil');
     }else{
-      header('location:datauser.php?stat=Hapus_gagal');
+      header('location:dataadmin.php?stat=hapus_gagal');
       }
     }
  ?>

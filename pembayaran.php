@@ -1,8 +1,13 @@
 <?php
-
 namespace Midtrans;
+session_start();
+require 'config/koneksi.php';
+require 'item.php';
 
-require_once dirname(__FILE__) . '/../../Midtrans.php';
+// Clear all product in cart
+unset($_SESSION['cart']);
+
+require_once dirname(__FILE__) . '/midtrans-php-master/Midtrans.php';
 //Set Your server key
 Config::$serverKey = "SB-Mid-server-9yJRpPxgIp1Ii_54-vP3g2HO";
 
@@ -17,8 +22,8 @@ Config::$serverKey = "SB-Mid-server-9yJRpPxgIp1Ii_54-vP3g2HO";
 
 // Required
 $transaction_details = array(
-    'order_id' => rand(),
-    'gross_amount' => 145000, // no decimal allowed for creditcard
+    'order_id' => 1,
+    'gross_amount' => 15000, // no decimal allowed for creditcard
 );
 
 // Optional
@@ -45,8 +50,8 @@ $billing_address = array(
     'first_name'    => "Andri",
     'last_name'     => "Litani",
     'address'       => "Mangga 20",
-    'city'          => "Jakarta",
-    'postal_code'   => "16602",
+    'city'          => "-",
+    'postal_code'   => "-",
     'phone'         => "081122334455",
     'country_code'  => 'IDN'
 );
@@ -56,8 +61,8 @@ $shipping_address = array(
     'first_name'    => "Obet",
     'last_name'     => "Supriadi",
     'address'       => "Manggis 90",
-    'city'          => "Jakarta",
-    'postal_code'   => "16601",
+    'city'          => "-",
+    'postal_code'   => "-",
     'phone'         => "08113366345",
     'country_code'  => 'IDN'
 );

@@ -1,6 +1,23 @@
 <?php require_once("head.php");
 session_start();
 require_once("item.php");
+
+// Save new orders
+$barang = $cart[0]->name;
+$jml = $cart[0]->quantity;
+$total = $s;
+$sql1 = "INSERT INTO transaksi(id_user,id_barang,jumlah_beli,total,tanggal_transaksi) VALUES('$id','$barang','$jml','$s',date('Y-m-d'))";
+$exe = mysqli_query($koneksi, $sql1);
+if($exe){
+  
+}
+// Save order details for new orders
+$cart = unserialize(serialize($_SESSION['cart']));
+for($i=0; $i<count($cart);$i++) {
+$sql2 = 'INSERT INTO oderdetail (productid, orderid, price, quantity) VALUES ('.$cart[$i]->id.', '.$ordersid.', '.$cart[$i]->price.', '.$cart[$i]->quantity.')';
+mysqli_query($con, $sql2);
+}
+
 if(isset($_GET['id']) && !isset($_POST['update'])){
 	$sql = "SELECT * FROM produk WHERE id=".$_GET['id'];
 	$result = mysqli_query($koneksi, $sql);
@@ -55,7 +72,7 @@ if(isset($_POST['update'])) {
       <div class="breadcrumb-hero" style="background-color: #967205;">
         <div class="container">
           <div class="breadcrumb-hero" style="background-color: #967205;">
-            <h2>Belanjaanku</h2>
+            <h2>Checkout</h2>
           </div>
         </div>
       </div>
@@ -63,7 +80,7 @@ if(isset($_POST['update'])) {
         <ol>
           <li><a href="index.php">Beranda</a></li>
           <li><a href="detailproduk.php">Detail Produk</a></li>
-          <li>Belanjaanku</li>
+          <li>Checkout</li>
         </ol>
       </div>
     </section><!-- End Breadcrumbs -->
@@ -74,7 +91,25 @@ if(isset($_POST['update'])) {
 
 					<form method="POST">
         <div class="row">
-          <div class="col-lg-8 entries">
+          <div class="col-lg-12 entries">
+            <article class="entry entry-single">
+
+              <table class="table">
+                <tr>
+                  <td>ID Pesanan</td>
+                  <td> : </td>
+                  <td> <?= ?> </td>
+                </tr>
+                  </table>
+                  </form>
+                  <br>
+                  <!-- <a href="index.php">Continue Shopping</a> | <a href="checkout.php">Checkout</a> -->
+
+              </tbody>
+
+              </table>
+
+            </article><!-- End blog entry -->
 
             <article class="entry entry-single">
 
@@ -86,18 +121,11 @@ if(isset($_POST['update'])) {
                     <th>Jumlah</th>
                     <th>Harga Satuan</th>
 										<th>Subtotal</th>
-                    <th>Aksi</th>
 
 
                 </thead>
                 <tbody>
                   <?php
-									if(!isset($_SESSION['cart']) || $_SESSION['cart']==null){
-										$cart = "";
-										$count = 0;
-										$s = 0;?>
-										<td colspan="7" style="text-align:center;">Tidak ada Data</td>
-									<?php }else{
                      $cart = unserialize(serialize($_SESSION['cart']));
                    	 $s = 0;
                    	 $index = 0;
@@ -108,31 +136,29 @@ if(isset($_POST['update'])) {
 											 	<td><?= $index+1?></td>
 												<td><img src="admin/images/produk/<?= $cart[$i]->pic;?>" alt="Gambar" height="50px" width="100px"> </td>
                      		<td> <?php echo $cart[$i]->name; ?> </td>
-                          <td><input type="number" min="1" value="<?php echo $cart[$i]->quantity; ?>" name="quantity[]" class="form-control" width="2"></td>
+                          <td>
+                            <!-- <input type="number" min="1" value="<?php echo $cart[$i]->quantity; ?>" name="quantity[]" class="form-control" width="2"> -->
+                            <?php echo $cart[$i]->quantity; ?>
+                          </td>
 													<td>Rp. <?php echo $cart[$i]->price; ?> </td>
-                          <td> Rp.<?php echo $cart[$i]->price * $cart[$i]->quantity; ?> </td>
-													<td><a class="btn btn-danger" href="cart.php?index=<?php echo $index; ?>" onclick="return confirm('Anda Yakin Ingin Menghapus?')" >Hapus</a></td>
+                          <td>Rp.<?php echo $cart[$i]->price * $cart[$i]->quantity; ?> </td>
                      </tr>
                    	<?php
                   	 	$index++;
                    	} ?>
                    	<tr>
-                   		<td colspan="7" style="text-align:right; font-weight:bold">
+                   		<!-- <td colspan="5" style="text-align:right; font-weight:bold">
                            <input id="saveimg" type="submit" name="update" class="btn btn-warning" value="Simpan">
                            <input type="hidden" name="update">
-                   		</td>
-											<!-- <td>Total</td> -->
-                   		<!-- <td>Rp.<?php echo $s; ?> </td> -->
+                   		</td> -->
+											<td colspan="5" style="text-align:right; font-weight:bold">Total</td>
+                   		<td style=" font-weight:bold">Rp.<?php echo $s; ?>,00 </td>
                    	</tr>
                   </table>
                   </form>
                   <br>
                   <!-- <a href="index.php">Continue Shopping</a> | <a href="checkout.php">Checkout</a> -->
-                  <?php
-                  if(isset($_GET["id"]) || isset($_GET["index"])){
-                   header('Location: cart.php');
-								 } }
-                  ?>
+
               </tbody>
 
               </table>
@@ -144,7 +170,7 @@ if(isset($_POST['update'])) {
 
           </div><!-- End blog entries list -->
 
-          <div class="col-lg-4">
+          <!-- <div class="col-lg-4">
             <div class="sidebar">
               <div class="sidebar-item recent-posts">
               <h3>Ringkasan Belanja</h3>

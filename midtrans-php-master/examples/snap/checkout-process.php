@@ -5,7 +5,7 @@ namespace Midtrans;
 require_once dirname(__FILE__) . '/../../Midtrans.php';
 
 //Set Your server key
-Config::$serverKey = "<your server key>";
+Config::$serverKey = "SB-Mid-server-9yJRpPxgIp1Ii_54-vP3g2HO";
 
 // Uncomment for production environment
 // Config::$isProduction = true;
@@ -96,10 +96,10 @@ echo "snapToken = ".$snapToken;
 <html>
     <body>
         <button id="pay-button">Pay!</button>
-        <pre><div id="result-json">JSON result will appear here after payment:<br></div></pre> 
+        <pre><div id="result-json">JSON result will appear here after payment:<br></div></pre>
 
         <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
-        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<Set your ClientKey here>"></script>
+        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-s0uzUDFPkRYxTsw1"></script>
         <script type="text/javascript">
             document.getElementById('pay-button').onclick = function(){
                 // SnapToken acquired from previous step

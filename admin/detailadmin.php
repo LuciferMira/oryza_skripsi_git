@@ -1,11 +1,7 @@
 <?php require_once("head.php");
-        // <!-- Header-->
-
-    require_once('../config/koneksi.php');
     if(isset($_GET['id'])){
-      
     $edit=$_GET['id'];
-    $query =mysqli_query($koneksi, "SELECT * from admin where id='$edit'");
+    $query =mysqli_query($koneksi, "SELECT * from user where id='$edit'");
     $data =mysqli_fetch_array($query);
     }
 
@@ -43,24 +39,20 @@
                             <div class="card-header">
                                    <div class="row">
                                     <div class="col-lg-10">
-                                        <h4 class="card-title">Data Admin</h4>
+                                        <h4 class="card-title">Data Admin</h4><br>
                                     </div>
-                            
-                                    
                                 </div>
- 
-
-<div class="form-group">
-          <label for="exampleInputEmail1">ID</label>
-          <input value="<?php echo $data['id_admin']?>" type="text" name="id_admin" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        </div>
- <div class="form-group">
+<!-- <div class="form-group"> -->
+          <!-- <label for="exampleInputEmail1">ID</label> -->
+          <input value="<?php echo $data['id']?>" type="hidden" name="id_admin" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <!-- </div> -->
+ <!-- <div class="form-group">
                 <label for="exampleInputEmail1">Foto</label>
                 <input type="file" name="gambar" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-              </div>
+              </div> -->
  <div class="form-group">
           <label for="exampleInputEmail1">Nama Admin</label>
-          <input value="<?php echo $data['nama']?>"" type="text" name="nama" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
+          <input value="<?php echo $data['nama_pengguna']?>" type="text" name="nama" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
         </div>
          <div class="form-group">
           <label for="exampleInputEmail1">Email</label>
@@ -82,10 +74,12 @@
           <label for="exampleInputEmail1">Telepon</label>
           <input value="<?=$data['telepon']?>"type="text" name="telepon" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
         </div>
- 
+
           <div class="modal-footer">
             <a href="dataadmin.php" class="btn btn-secondary" data-dismiss="modal">Keluar</a>
-            <a href="dataadmin.php" class="btn btn-primary" data-dismiss="modal">Simpan</a>
+            <!-- <a href="dataadmin.php" class="btn btn-primary" data-dismiss="modal">Simpan</a> -->
           </div>
-             </form>     
-]<?php require_once("footer.php"); ?>   
+             </form>
+         </div>
+         </div>
+<?php require_once("footer.php"); ?>

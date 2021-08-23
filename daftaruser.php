@@ -90,12 +90,12 @@
                             <input type="text" class="form-control" placeholder="Telepon" name="telepon">
                         </div>
                         <div class="checkbox">
-                            
+
                         </div>
                         <button a href="masuk.php" type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30" name="btn_submit">Daftar</button>
                         <a href="masuk.php"></a>
                         <div class="register-link m-t-15 text-center">
-                            <p>Sudah Punya Akun ? <a href="daftaruser.php"> Daftar</a></p>
+                            <p>Sudah Punya Akun ? <a href="masuk.php"> Masuk</a></p>
                         </div>
                     </form>
                 </div>

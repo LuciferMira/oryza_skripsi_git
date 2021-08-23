@@ -1,4 +1,8 @@
-
+<?php
+  ob_start();
+  require_once('../config/koneksi.php');
+  require_once('session_admin.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +31,87 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
 
    <style>
+   /* Style the Image Used to Trigger the Modal */
+  #myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  #myImg:hover {opacity: 0.7;}
+
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+  }
+
+  /* Modal Content (Image) */
+  .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+  }
+
+  /* Caption of Modal Image (Image Text) - Same Width as the Image */
+  #caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+  }
+
+  /* Add Animation - Zoom in the Modal */
+  .modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+  }
+
+  @keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+  }
+
+  /* The Close Button */
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* 100% Image Width on Smaller Screens */
+  @media only screen and (max-width: 700px){
+    .modal-content {
+      width: 100%;
+    }
+  }
+
+
     #weatherWidget .currentDesc {
         color: #ffffff!important;
     }
@@ -63,31 +148,6 @@
 
     </style>
 </head>
-<?php
-  require_once('../config/koneksi.php');
-  //require_once('session_admin.php');
-  // if(isset($_POST['masuk'])){
-  //   $email = $_POST['email'];
-  //   $password = md5($_POST['password']);
-  //   $query = mysqli_query($koneksi, "select * from admin where email='$email' and password='$password'");
-  //   $num = mysqli_num_rows($query);
-  //   $data = mysqli_fetch_array($query);
-  //   if($num>0){
-  //     session_start();
-  //     $_SESSION['gambar'] = $data['gambar'];
-  //     $_SESSION['nama_pengguna'] = $data['nama_pengguna'];
-  //     $_SESSION['email'] = $data['email'];
-  //     $_SESSION['tempat_lahir'] = $data['tempat_lahir'];
-  //     $_SESSION['tanggal_lahir'] = $data['tanggal_lahir'];
-  //     $_SESSION['alamat'] = $data['alamat'];
-  //     $_SESSION['telepon'] = $data['telepon'];
-     
-  //     header('location:admin.php?stat=login_berhasil');
-  //   }else{
-  //     // header('location:admin.php?stat=login_gagal');
-  //   }
-  // }
-?>
 <body>
     <!-- Left Panel -->
     <aside id="left-panel" class="left-panel">
@@ -107,7 +167,7 @@
                             <li><i class="fa fa-id-card-o"></i><a href="dataadmin.php">Data Admin</a></li>
                         </ul>
                     </li>
-                  
+
 
                     <li class="menu-title">Stok</li><!-- /.menu-title -->
 
@@ -123,13 +183,13 @@
 
                         </ul>
                     </li>
-                    
+
                     <li class="menu-title">Halaman Admin</li><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Halaman</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-sign-in"></i><a href="datariwayat.php">Riwayat Belanja</a></li>
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="login.php">Logout</a></li>
+                            <li><i class="menu-icon fa fa-sign-in"></i><a href="logout.php">Logout</a></li>
 
                         </ul>
                     </li>
@@ -148,7 +208,7 @@
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
-            
+
         </header>
         <!-- /#header -->
         <!-- Content -->

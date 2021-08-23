@@ -1,6 +1,26 @@
-<?php require_once("head.php"); ?>
-        <!-- Header-->
+<?php require_once("head.php");
 
+if(isset($_POST['btn_simpan'])){
+  $produk = $_POST['produk'];
+  $tgl = $_POST['tanggal'];
+  $jumlah = $_POST['jumlah'];
+  $query = mysqli_query($koneksi, "INSERT INTO barang_masuk VALUES('','$produk','$tgl','$jumlah')");
+  if($query){
+    $select = mysqli_query($koneksi, "SELECT id,stok FROM produk WHERE id='$produk'");
+    $dstok = mysqli_fetch_array($select);
+    $nstok = $dstok['stok'] + $jumlah;
+    $up = mysqli_query($koneksi, "UPDATE produk SET stok = '$nstok' WHERE id = '$produk'");
+    if($up){
+      header('location:databarangmasuk.php?stat=input_berhasil');
+    }else{
+      header('location:databarangmasuk.php?stat=input_gagal');
+    }
+  }else{
+    header('location:databarangmasuk.php?stat=input_gagal');
+  }
+}
+?>
+        <!-- Header-->
         <div class="breadcrumbs">
             <div class="breadcrumbs-inner">
                 <div class="row m-0">
@@ -31,64 +51,44 @@
          <div class="col-xs-6 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong>Tambah Barang Masuk</strong> 
+                                <strong>Tambah Barang Masuk</strong>
                             </div>
                             <div class="card-body card-block">
-                                <div class="form-group">
-                                    <label class=" form-control-label">ID</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-picture-o"></i></div>
-                                        <input class="form-control">
-                                    </div>
-                                    <!-- <small class="form-text text-muted">ex. 99/99/9999</small> -->
-                                </div>
+                              <form action="" method="post">
                                 <div class="form-group">
                                     <label class=" form-control-label">Nama Barang</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-bars"></i></div>
-                                        <input class="form-control" type="text">
+                                        <!-- <input class="form-control" type="text"> -->
+                                        <select class="form-control" name="produk">
+                                          <option value="">--Pilih Produk--</option>
+                                          <?php $call = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC");
+                                          while($data = mysqli_fetch_array($call)){ ?>
+                                          <option value="<?= $data['id'] ?>"><?= $data['nama'] ?> | <?= $data['berat'] ?> KG</option>
+                                        <?php } ?>
+                                        </select>
                                     </div>
-                                    <!-- <small class="form-text text-muted">ex. 99-9999999</small> -->
-                            
                              <div class="form-group">
                                     <label class=" form-control-label">Tanggal Masuk</label>
-                                    <div class="input-group"> 
+                                    <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                        <input class="form-control" type="date">
+                                        <input class="form-control" type="date" name="tanggal">
                                     </div>
-                                   
-                                <div class="form-group">
-                                    <label class=" form-control-label">Berat</label>
-                                   <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-circle-o-notch"></i></div>
-                                        <input class="form-control">
-                                    </div>
-                                     <div class="form-group">
+                            <div class="form-group">
                                     <label class=" form-control-label">Jumlah</label>
-                                   <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-list"></i></div>
-                                        <input class="form-control">
-                                    </div>
+                                     <div class="input-group">
+                                          <div class="input-group-addon"><i class="fa fa-list"></i></div>
+                                          <input class="form-control" type="number" name="jumlah">
+                                      </div>
                                 </div>
-                                    <div class="form-group">
-                                    <label class=" form-control-label">Harga</label>
-                                    <div class="input-group"> 
-                                        <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                                        <input class="form-control">
-                                    </div>
-                                   
-
-                            </div>
-                            <div class="card-footer">
-                                <a href="dataproduk.php" class="badge badge-warning" style="color: white;"><i class="fa fa-plus"></i>Kembali</a>
-                                <a href="dataproduk.php" class="badge badge-primary" style="color: white;"><i class="fa fa-plus"></i>Simpan</a>
-
-
-                            </div>
+                                <div class="card-footer">
+                                    <a href="databarangmasuk.php" class="btn btn-warning" style="color: white;"><i class="fa fa-times"></i> Kembali</a>
+                                    <input type="submit" name="btn_simpan" value="Simpan" class="btn btn-primary">
+                                </div>
+                              </form>
                         </div>
                     </div>
-
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
-<?php require_once("footer.php"); ?>   
+<?php require_once("footer.php"); ?>
