@@ -1,40 +1,38 @@
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
-<head>
-  <?php require_once('config/koneksi.php');
-  if(isset($_POST['login'])){
-    $email = $_POST['email'];
-    $pass = md5($_POST['password']);
+<?php
+ob_start();
+require_once('config/koneksi.php');
+if(isset($_POST['login'])){
+  $email = $_POST['email'];
+  $pass = md5($_POST['password']);
 
-    $login = mysqli_query($koneksi, "SELECT * FROM user WHERE email='$email' AND password='$pass'");
-    $row = mysqli_num_rows($login);
-    if($row>0){
-      $data = mysqli_fetch_array($login);
-      $akses = $data['akses'];
-      session_start();
-      $_SESSION['idusr'] = $data['id'];
-      $_SESSION['nama'] = $data['nama_pengguna'];
-      $_SESSION['tgl'] = $data['tanggal_lahir'];
-      $_SESSION['tmpt'] = $data['tempat_lahir'];
-      $_SESSION['add'] = $data['alamat'];
-      $_SESSION['mail'] = $data['email'];
-      $_SESSION['no'] = $data['telepon'];
-      $_SESSION['akses'] = $data['akses'];
-      if($akses=='admin'){
-        header('location:admin/index.php?stat=login_success');
-      }elseif($akses=='user'){
-        header('location:index.php?stat=login_success');
-      }else{
-        header('location:error.php');
-      }
+  $login = mysqli_query($koneksi, "SELECT * FROM user WHERE email='$email' AND password='$pass'");
+  $row = mysqli_num_rows($login);
+  if($row>0){
+    $data = mysqli_fetch_array($login);
+    $akses = $data['akses'];
+    session_start();
+    $_SESSION['idusr'] = $data['id'];
+    $_SESSION['nama'] = $data['nama_pengguna'];
+    $_SESSION['tgl'] = $data['tanggal_lahir'];
+    $_SESSION['tmpt'] = $data['tempat_lahir'];
+    $_SESSION['add'] = $data['alamat'];
+    $_SESSION['mail'] = $data['email'];
+    $_SESSION['no'] = $data['telepon'];
+    $_SESSION['akses'] = $data['akses'];
+    if($akses=='admin'){
+      header('location:admin/index.php?stat=login_success');
+    }elseif($akses=='user'){
+      header('location:index.php?stat=login_success');
     }else{
-      header('location:masuk.php?stat=login_failed');
+      header('location:error.php');
     }
+  }else{
+    header('location:masuk.php?stat=login_failed');
   }
-  ?>
+}
+?>
+<!doctype html>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>ORYZA LOGIN</title>

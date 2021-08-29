@@ -1,25 +1,4 @@
-<?php require_once("head.php");
-        // <!-- Header-->
-     require_once("../config/koneksi.php");
-    if(isset($_POST['btn_simpan'])){
-  $nama = $_POST['nama'];
-  $jumlah = $_POST['jumlah'];
-  $total = $_POST['total_bayar'];
-  $alamat = $_POST['alamat'];
-  $deskripsi = $_POST['telepon'];
-
-
-
-      $query =mysqli_query($koneksi,"INSERT INTO transaksi VALUES('$id','$nama','$jumlah','$total','$alamat','$telepon')");
-        if($query){
-          header('location:user.php?status=input_berhasil');
-        }else{
-          header('location:user.php?status=input_gagal');
-        }
-
-
-  }
-  ?>
+<?php require_once("head.php"); ?>
 
         <div class="breadcrumbs">
             <div class="breadcrumbs-inner">
@@ -74,31 +53,33 @@
                                             <th>Jumlah Beli</th>
                                             <th>Total Bayar</th>
                                             <th>Alamat</th>
-                                            <th>Telepon</th>
+                                            <th>Tanggal</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
                                             $no = 1;
-                                            $call = mysqli_query($koneksi, "SELECT * FROM transaksi ORDER BY id_pesanan");
-                                            $row = mysqli_num_rows($call);
+                                            $query = mysqli_query($koneksi, "SELECT transaksi.id_pesanan as idp, id_user, nama_pengguna, email, alamat, telepon, detail_transaksi.id_produk as idb, produk.nama as nama_produk, harga_satuan, detail_transaksi.jumlah_beli as qty, subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi FROM transaksi
+                                                    INNER JOIN user ON user.id = transaksi.id_user
+                                                    INNER JOIN detail_transaksi ON detail_transaksi.id_pesanan = transaksi.id_pesanan
+                                                    INNER JOIN produk ON produk.id = detail_transaksi.id_produk");
+                                            $row = mysqli_num_rows($query);
                                             if($row>0){
-                                                while($data = mysqli_fetch_array($call)){
+                                            while($data = mysqli_fetch_array($query)){
                                         ?>
                                         <tr>
                                             <td class="serial"><?php echo$no;?></td>
-                                            <td><span class="name"><?=$data['id_pesanan'];?></span> </td>
-                                            <td><span class="name"><?=$data['id_barang'];?></span> </td>
-                                            <td><span class="name"><?=$data['nama'];?></span> </td>
-                                            <td><span class="product"><?=$data['jumlah'];?></span> </td>
-                                            <td><span class="count"><?=$data['total_bayar'];?></span></td>
-                                            <td><span class="name"><?=$data['alamat'];?></span> </td>
-                                            <td><span class="name"><?=$data['telepon'];?></span> </td>
+                                            <td><span class="count"><?=$data['idp'];?></span> </td>
+                                            <td><span class="coount"><?=$data['idb'];?></span> </td>
+                                            <td><span class="name"><?=$data['nama_pengguna'];?></span> </td>
+                                            <td><span class="count"><?=$data['qty'];?></span> </td>
+                                            <td><span class="count"><?=$data['total'];?></span></td>
+                                            <td><span class="name"><?=$data['alamat_penerima'];?></span> </td>
+                                            <td><span class="name"><?= date('d-M-Y',strtotime($data['tanggal_transaksi']));?></span> </td>
                                             <td>
-                                              <a href="detailtransaksi.php?id=<?php echo $data['id_pesanan']; ?>" class="badge badge-pending"><i class="fa fa-list"></i> Detail</a>
-                                              <a href="edittransaksi.php" class="badge badge-warning"><i class="fa fa-edit"></i> Edit</a>
-                                              <a href="dltbrg.php?id=<?=$data['id_barang'];?>" class="badge badge-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                              <a href="detailtransaksi.php?id=<?php echo $data['idp']; ?>" class="badge badge-pending"><i class="fa fa-list"></i> Detail</a>
+                                              <!-- <a href="edittransaksi.php" class="badge badge-warning"><i class="fa fa-edit"></i> Edit</a> -->
                                             </td>
                                         </tr>
                                         <?php }}else{ ?>

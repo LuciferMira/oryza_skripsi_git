@@ -176,8 +176,8 @@
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-fort-awesome"></i><a href="databarangmasuk.php">Barang Masuk</a></li>
                             <li><i class="menu-icon ti-themify-logo"></i><a href="databarangkeluar.php">Barang Keluar</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="datajual.php">Total Penjualan</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="datapendapatan.php">Pendapatan</a></li>
+                            <!-- <li><i class="menu-icon ti-themify-logo"></i><a href="datajual.php">Total Penjualan</a></li> -->
+                            <!-- <li><i class="menu-icon ti-themify-logo"></i><a href="datapendapatan.php">Pendapatan</a></li> -->
                             <!-- <li><i class="menu-icon ti-themify-logo"></i><a href="datapengeluaran.php">Pengeluaran</a></li> -->
 
 
@@ -188,7 +188,7 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Halaman</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="datariwayat.php">Riwayat Belanja</a></li>
+                            <!-- <li><i class="menu-icon fa fa-sign-in"></i><a href="datariwayat.php">Riwayat Belanja</a></li> -->
                             <li><i class="menu-icon fa fa-sign-in"></i><a href="logout.php">Logout</a></li>
 
                         </ul>

@@ -56,7 +56,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <?php
                                             $no = 1;
                                             $call = mysqli_query($koneksi, "SELECT barang_masuk.id,produk.nama as nama_produk,barang_masuk.id_produk as id_produk,tanggal_masuk, jumlah FROM barang_masuk

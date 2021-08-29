@@ -1,4 +1,5 @@
 Akses Server
-DB name : oryza_skripsi
-Db username : t0or
-password : A4yy|XPJ_r-U~#Xc
+DB name : id15856561_oryza_skripsi
+Db username : id15856561_t0or
+password : D94dV=^hRa<omHsb
+

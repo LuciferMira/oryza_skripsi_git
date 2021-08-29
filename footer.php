@@ -1,4 +1,4 @@
-
+<?php ob_end_flush(); ?>
   <!-- ======= Footer ======= -->
   <footer id="footer" style="background-color: #f9cf37;">
     <div class="footer-top" style="background-color: #634b03;">

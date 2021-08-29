@@ -81,12 +81,12 @@
           <li>
             <a href="cart.php">
               <i class="icofont-cart"></i> Belanjaanku</a>
-            <li>
-              <a href="riwayat.php">
-              <i class="icofont-ui-note"></i> Riwayat Belanja</a>
-            </li>
           </li>
           <?php if(isset($_SESSION['nama'])){?>
+          <li>
+            <a href="riwayat.php">
+            <i class="icofont-ui-note"></i> Riwayat Belanja</a>
+          </li>
           <li class="get-started"><a href="keluar.php">Keluar</a></li>
           <?php }else{ ?>
           <li class="get-started"><a href="masuk.php">Masuk</a></li>

@@ -1,9 +1,20 @@
-<?php require_once("head.php"); ?>
+<?php
+require_once("head.php");
+$numuser = mysqli_fetch_array(mysqli_query($koneksi,"SELECT count(id) as user FROM user WHERE akses='user'"));
+$numproduk = mysqli_fetch_array(mysqli_query($koneksi,"SELECT count(id) as produk FROM produk"));
+$numtransac = mysqli_fetch_array(mysqli_query($koneksi,"SELECT count(id_pesanan) as trans FROM transaksi"));
+$numadmin = mysqli_fetch_array(mysqli_query($koneksi,"SELECT count(id) as admin FROM user WHERE akses='admin'"));
+$numbarmas = mysqli_fetch_array(mysqli_query($koneksi,"SELECT count(id) as bm FROM barang_masuk"));
+$numbarkel = mysqli_fetch_array(mysqli_query($koneksi,"SELECT count(id) as bk FROM barang_keluar"));
+$numtotaljual = mysqli_fetch_array(mysqli_query($koneksi,"SELECT sum(jumlah_beli) as jum FROM detail_transaksi"));
+$numpendapatan = mysqli_fetch_array(mysqli_query($koneksi,"SELECT sum(total) as total FROM transaksi"));
+// $numpengeluaran = mysqli_fetch_array(mysqli_query($koneksi,"SELECT count(id) FROM user WHERE akses='user'"));
+?>
         <div class="content">
             <!-- Animated -->
             <div class="animated fadeIn">
                 <!-- Widgets  -->
-               
+
                 <!-- /Widgets -->
                 <!--  Traffic  -->
                 <div class="row">
@@ -24,7 +35,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($data_barang['id_barang']>0){echo $data_barang['id_barang'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numuser['user']>0){echo $numuser['user'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">User</div>
                                         </div>
                                     </div>
@@ -41,7 +52,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($pesanan['id_pesanan']>0){echo $pesanan['id_pesanan'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numproduk['produk']>0){echo $numproduk['produk'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">Produk</div>
                                         </div>
                                     </div>
@@ -59,7 +70,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($barangmasuk['id']>0){echo $barangmasuk['id'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numtransac['trans']>0){echo $numtransac['trans'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">Transaksi</div>
                                         </div>
                                     </div>
@@ -77,7 +88,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($adm['id_admin']>0){echo $adm['id_admin'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numadmin['admin']>0){echo $numadmin['admin'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">Admin</div>
                                         </div>
                                     </div>
@@ -95,7 +106,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($data_barang['id_barang']>0){echo $data_barang['id_barang'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numbarmas['bm']>0){echo $numbarmas['bm'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">Barang Masuk</div>
                                         </div>
                                     </div>
@@ -113,7 +124,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($data_barang['id_barang']>0){echo $data_barang['id_barang'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numbarkel['bk']>0){echo $numbarkel['bk'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">Barang Keluar</div>
                                         </div>
                                     </div>
@@ -131,7 +142,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($data_barang['id_barang']>0){echo $data_barang['id_barang'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numtotaljual['jum']>0){echo $numtotaljual['jum'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">Total Jual</div>
                                         </div>
                                     </div>
@@ -149,7 +160,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php if($data_barang['id_barang']>0){echo $data_barang['id_barang'];}else{echo "0";} ?></span></div>
+                                            <div class="stat-text"><span class="count"><?php if($numpendapatan['total']>0){echo $numpendapatan['total'];}else{echo "0";} ?></span></div>
                                             <div class="stat-heading">Pendapatan</div>
                                         </div>
                                     </div>
@@ -158,7 +169,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
+                    <!-- <div class="col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <div class="stat-widget-five">
@@ -174,11 +185,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                     <div class="col-lg-6">
-                        
+
 
                             <div class="row">
                                 <div class="col-lg-8">
@@ -220,7 +231,7 @@
                                             </div>
                                         </div>
                                     </div> <!-- /.card-body -->
-                                </div> 
+                                </div>
                             </div> <!-- /.row -->
                             <div class="row">
 
@@ -291,4 +302,4 @@
             <!-- .animated -->
         </div>
 
-<?php require_once("footer.php"); ?>   
+<?php require_once("footer.php"); ?>

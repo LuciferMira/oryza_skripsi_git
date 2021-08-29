@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Agu 2021 pada 06.14
+-- Waktu pembuatan: 29 Agu 2021 pada 20.13
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.4.3
 
@@ -56,21 +56,18 @@ INSERT INTO `admin` (`id_admin`, `gambar`, `nama`, `email`, `password`, `tempat_
 
 CREATE TABLE `barang_keluar` (
   `id` int(10) NOT NULL,
-  `nama_barang` varchar(50) NOT NULL,
-  `kategori` enum('beras','dedak') NOT NULL,
+  `id_pesanan` int(10) DEFAULT NULL,
+  `id_produk` int(10) NOT NULL,
   `tanggal_keluar` date NOT NULL,
-  `berat` int(100) NOT NULL,
-  `jumlah` int(100) NOT NULL,
-  `harga` int(100) NOT NULL
+  `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `barang_keluar`
 --
 
-INSERT INTO `barang_keluar` (`id`, `nama_barang`, `kategori`, `tanggal_keluar`, `berat`, `jumlah`, `harga`) VALUES
-(1, 'premium', 'beras', '2021-06-01', 25, 10, 280000),
-(2, 'aswra', 'beras', '2021-06-01', 25, 10, 250000);
+INSERT INTO `barang_keluar` (`id`, `id_pesanan`, `id_produk`, `tanggal_keluar`, `jumlah`) VALUES
+(3, 2, 3, '2021-08-30', 3);
 
 -- --------------------------------------------------------
 
@@ -101,10 +98,21 @@ INSERT INTO `barang_masuk` (`id`, `id_produk`, `tanggal_masuk`, `jumlah`) VALUES
 
 CREATE TABLE `detail_transaksi` (
   `id_pesanan` int(10) NOT NULL,
-  `id_barang` int(10) NOT NULL,
+  `id_produk` int(10) NOT NULL,
+  `harga_satuan` double NOT NULL,
   `jumlah_beli` int(3) NOT NULL,
-  `subtotal` double NOT NULL
+  `subtotal` double NOT NULL,
+  `qty_kirim` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `detail_transaksi`
+--
+
+INSERT INTO `detail_transaksi` (`id_pesanan`, `id_produk`, `harga_satuan`, `jumlah_beli`, `subtotal`, `qty_kirim`) VALUES
+(2, 3, 452, 3, 1356, 3),
+(3, 10, 452, 1, 452, 0),
+(4, 3, 452, 3, 1356, 0);
 
 -- --------------------------------------------------------
 
@@ -195,18 +203,23 @@ INSERT INTO `riwayat` (`id_transaksi`, `tanggal`, `gambar`, `nama_produk`, `juml
 CREATE TABLE `transaksi` (
   `id_pesanan` int(10) NOT NULL,
   `id_user` int(10) NOT NULL,
-  `id_barang` int(10) NOT NULL,
+  `id_produk` int(10) NOT NULL,
   `jumlah_beli` int(3) NOT NULL,
   `total` double NOT NULL,
-  `tanggal_transaksi` date NOT NULL
+  `tanggal_transaksi` date NOT NULL,
+  `nama_penerima` varchar(100) NOT NULL,
+  `alamat_penerima` text NOT NULL,
+  `telp_penerima` varchar(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_pesanan`, `id_user`, `id_barang`, `jumlah_beli`, `total`, `tanggal_transaksi`) VALUES
-(2, 0, 2, 0, 0, '0000-00-00');
+INSERT INTO `transaksi` (`id_pesanan`, `id_user`, `id_produk`, `jumlah_beli`, `total`, `tanggal_transaksi`, `nama_penerima`, `alamat_penerima`, `telp_penerima`) VALUES
+(2, 118, 3, 3, 1356, '2021-08-29', 'User', 'Jalan Jalan', '08768756'),
+(3, 118, 10, 1, 452, '2021-08-29', 'User', 'Jalan Jalan', '08768756'),
+(4, 118, 3, 3, 1356, '2021-08-29', 'User', 'Jalan Jalan', '08768756');
 
 -- --------------------------------------------------------
 
@@ -252,7 +265,8 @@ ALTER TABLE `admin`
 -- Indeks untuk tabel `barang_keluar`
 --
 ALTER TABLE `barang_keluar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_produk` (`id_produk`);
 
 --
 -- Indeks untuk tabel `barang_masuk`
@@ -266,7 +280,7 @@ ALTER TABLE `barang_masuk`
 --
 ALTER TABLE `detail_transaksi`
   ADD KEY `id_pesanan` (`id_pesanan`),
-  ADD KEY `id_barang` (`id_barang`);
+  ADD KEY `id_barang` (`id_produk`);
 
 --
 -- Indeks untuk tabel `pendapatan`
@@ -298,7 +312,7 @@ ALTER TABLE `riwayat`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_pesanan`),
-  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_barang` (`id_produk`),
   ADD KEY `id_user` (`id_user`);
 
 --
@@ -321,7 +335,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `barang_keluar`
 --
 ALTER TABLE `barang_keluar`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `barang_masuk`
@@ -351,7 +365,7 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_pesanan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pesanan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
