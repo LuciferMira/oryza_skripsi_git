@@ -1,4 +1,7 @@
-<?php require_once("head.php"); ?>
+<?php
+namespace Midtrans;
+require_once("head.php");
+?>
 
   <main id="main">
 
@@ -32,97 +35,96 @@
 
               <table class="table">
                 <thead class="table-light">
-                    <th>Id</th>
                     <th>No</th>
+                    <th>Id</th>
                     <th>Tanggal</th>
-                    <th>Gambar</th>
-                    <th>Nama Produk</th>
+                    <!-- <th>Nama Produk</th>
                     <th>Jumlah</th>
-                    <th>Harga</th>
+                    <th>Harga</th> -->
+                    <th>Total Transaksi</th>
+                    <th>Alamat Pengiriman</th>
                     <th>Status Bayar</th>
-                    <th>Aksi</th>
+                    <!-- <th>Aksi</th> -->
 
 
                 </thead>
                 <tbody>
-                  <?php
-            //initialize total
-            $total = 0;
-                        $_SESSION['total']=$total;
-            if(!empty($_SESSION['cart'])){
-            //create array of initail qty which is 1
-            $index = 0;
-            if(!isset($_SESSION['qty_array'])){
-              $_SESSION['qty_array'] = array_fill(0, count($_SESSION['cart']), 1);
-            }
-            $sql = "SELECT * FROM riwayat WHERE id IN (".implode(',',$_SESSION['cart']).")";
-            $query = mysqli_query($koneksi,$sql);
-              while($row = mysqli_fetch_array($query)){
+            <?php
+            $i = 1;
+            $query = mysqli_query($koneksi, "SELECT transaksi.id_pesanan as idp, id_user, nama_pengguna, email, alamat, telepon, detail_transaksi.id_produk as idb, produk.nama as nama_produk, harga_satuan, detail_transaksi.jumlah_beli as qty, subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi FROM transaksi
+                    INNER JOIN user ON user.id = transaksi.id_user
+                    INNER JOIN detail_transaksi ON detail_transaksi.id_pesanan = transaksi.id_pesanan
+                    INNER JOIN produk ON produk.id = detail_transaksi.id_produk WHERE id_user = $id");
+            while($row = mysqli_fetch_array($query)){
+              if($row!=0){
+                require_once dirname(__FILE__) . '/midtrans-php-master/Midtrans.php';
+                //Set Your server key
+                Config::$serverKey = "SB-Mid-server-9yJRpPxgIp1Ii_54-vP3g2HO";
+                $status = Transaction::status($row['idp']);
+                $setstat = $status->transaction_status;
+                switch ($setstat) {
+                  case 'capture':
+                    $stat = "Pembayaran Lunas dan Terverifikasi";
+                    break;
+                  case 'settlement':
+                    $stat = "Pembayaran Lunas dan Terverifikasi";
+                    break;
+                  case 'pending':
+                    $stat = "Menunggu Proses Pembayaran";
+                    break;
+                  case 'deny':
+                    $stat = "Transaksi Ditolak";
+                    break;
+                  case 'cancel':
+                    $stat = "Transaksi Batal";
+                    break;
+                  case 'expire':
+                    $stat = "Transaksi Melewati Batas Waktu";
+                    break;
+                  case 'refund':
+                    $stat = "Transaksi Batal, Debit Telah Dikembalikan Sepenuhnya";
+                    break;
+                  case 'partial_refund':
+                    $stat = "Transaksi Batal, Debit Telah Dikembalikan Sebagian";
+                    break;
+                  case 'authorize':
+                    $stat = "Transaksi Dalam Proses Verifikasi Oleh Admin";
+                    break;
+                  default:
+                    "Status Transaksi Tidak Diketahui, Mohon Kontak Admin";
+                    break;
+                }
                 ?>
                 <tr>
-                  <td>
-                    <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                    <label class="form-check-label" for="flexCheckChecked">
-                    </label>
-                  </div>
-                </td>
+                  <td><?php echo $i++; ?></td>
+                  <td><?php echo $row['idp']; ?></td>
+                  <td><?php echo $row['tanggal_transaksi']; ?></td>
+                  <!-- <td><?php echo $row['nama_produk']; ?></td>
+                  <td><?php echo $row['qty']; ?></td>
+                  <td><?php echo $row['harga_satuan']; ?></td> -->
+                  <td><?= $row['total'] ?></td>
+                  <td><?php echo $row['alamat_penerima']; ?></td>
+                  <td><?php echo $stat; ?></td>
                   <!-- <td>
-                    <a href="dltcart.php?id=<?php echo $row['id_produk']; ?>&index=<?php echo $index; ?>" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
-                  </td> -->
-                  <td><?php echo $row['id_transaksi']; ?></td>
-                  <td><?php echo $row['tanggal']; ?></td>
-                  <td><?php echo $row['gambar']; ?></td>
-                  <td><?php echo $row['nama_produk']; ?></td>
-                  <td><?php echo $row['jumlah']; ?></td>
-                  <td><?php echo $row['harga']; ?></td>
-                  <td><?php echo $row['status_bayar']; ?></td>
-
-
-                  <td>
-                    <div class="col-lg-6">
-                    <input type="text" class="form-control" value="<?php echo $_SESSION['qty_array'][$index]; ?>" name="qty_<?php echo $index; ?>">  
-                    </div>
-                    
-                  </td>
-                  <td><?php echo number_format($row['harga'], 2); ?></td>
-                  <td>
                     <a href="dltcart.php" class="btn btn-danger">
                       <i class="icofont-trash"></i>
                     </a>
-                  </td>
-
-                  <input type="hidden" name="indexes[]" value="<?php echo $index; ?>">
-                  <!-- <td><input type="text" class="form-control" value="<?php echo $_SESSION['qty_array'][$index]; ?>" name="qty_<?php echo $index; ?>"></td> -->
-                  <!-- <td><?php echo number_format($_SESSION['qty_array'][$index]*$row['harga'], 2); ?></td>
-                  <?php $total += $_SESSION['qty_array'][$index]*$row['harga']; ?> -->
+                  </td> -->
                 </tr>
-                <?php
-                $index ++;
-              }
-            }
-            else{
-              ?>
-              <tr>
-                <td colspan="8" class="text-center">Tidak ada riwayat pembelanjaan</td>
-              </tr>
-              <?php
-            }
- 
-          ?>
-         <!--  <tr>
-            <td colspan="12" align="right"><b>Total</b></td>
-            <td><b><?php echo number_format($total, 2); ?></b></td>
-          </tr> -->
+              <?php }else{ ?>
+                <tr>
+                  <td colspan="10" class="text-center">Tidak ada riwayat pembelanjaan</td>
+                </tr>
+              <?php } } ?>
               </tbody>
 
               </table>
 
             </article><!-- End blog entry -->
 
-           
 
-          
+
+
           </div><!-- End blog entries list -->
 
           <!-- <div class="col-lg-4"> -->

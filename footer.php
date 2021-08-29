@@ -65,6 +65,32 @@
 
   <a href="#" class="back-to-top" style="background-color: #634b03;"><i class="icofont-simple-up"></i></a>
 
+  <script type="text/javascript">
+  function EnableDisable() {
+          var dbaru = document.getElementById("baru");
+          var nama = document.getElementById("nama");
+          var alamat = document.getElementById("alamat");
+          var telp = document.getElementById("telp");
+          if(dbaru.checked==true){
+            nama.value="";
+            alamat.value="";
+            telp.value="";
+            nama.readOnly=false;
+            alamat.readOnly=false;
+            telp.readOnly=false;
+            nama.focus();
+          }else if(dbaru.checked==false){
+            nama.value="<?= $namausr ?>";
+            alamat.value="<?= $alamat ?>";
+            telp.value="<?= $tlp ?>";
+            nama.readOnly=true;
+            alamat.readOnly=true;
+            telp.readOnly=true;
+          }else{
+            alert('Error');
+          }
+      }
+  </script>
   <!-- Vendor JS Files -->
   <script src="assets/vendor/jquery/jquery.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

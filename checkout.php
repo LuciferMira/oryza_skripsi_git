@@ -2,21 +2,6 @@
 session_start();
 require_once("item.php");
 
-// Save new orders
-$barang = $cart[0]->name;
-$jml = $cart[0]->quantity;
-$total = $s;
-$sql1 = "INSERT INTO transaksi(id_user,id_barang,jumlah_beli,total,tanggal_transaksi) VALUES('$id','$barang','$jml','$s',date('Y-m-d'))";
-$exe = mysqli_query($koneksi, $sql1);
-if($exe){
-  
-}
-// Save order details for new orders
-$cart = unserialize(serialize($_SESSION['cart']));
-for($i=0; $i<count($cart);$i++) {
-$sql2 = 'INSERT INTO oderdetail (productid, orderid, price, quantity) VALUES ('.$cart[$i]->id.', '.$ordersid.', '.$cart[$i]->price.', '.$cart[$i]->quantity.')';
-mysqli_query($con, $sql2);
-}
 
 if(isset($_GET['id']) && !isset($_POST['update'])){
 	$sql = "SELECT * FROM produk WHERE id=".$_GET['id'];
@@ -89,20 +74,30 @@ if(isset($_POST['update'])) {
     <section id="blog" class="blog">
       <div class="container">
 
-					<form method="POST">
+				<form method="POST" action="pembayaran.php">
         <div class="row">
           <div class="col-lg-12 entries">
             <article class="entry entry-single">
-
+							<input type="checkbox" id="baru" onclick="EnableDisable()"> Kirim Ke Alamat Lain
               <table class="table">
                 <tr>
-                  <td>ID Pesanan</td>
+                  <td>Nama Penerima</td>
                   <td> : </td>
-                  <td> <?= ?> </td>
+                  <td> <input type="text" name="nama" id="nama" class="form-control" value="<?= $namausr ?>" readonly></td>
                 </tr>
-                  </table>
-                  </form>
-                  <br>
+								<tr>
+                  <td>Alamat Penerima</td>
+                  <td> : </td>
+                  <td> <textarea name="alamat" id="alamat" rows="2" cols="80" class="form-control" readonly><?= $alamat ?></textarea> </td>
+                </tr>
+								<tr>
+                  <td>No Telefon</td>
+                  <td> : </td>
+                  <td> <input type="text" name="telp" id="telp" class="form-control" value="<?= $tlp ?>" readonly> </td>
+                </tr>
+              </table>
+
+            <br>
                   <!-- <a href="index.php">Continue Shopping</a> | <a href="checkout.php">Checkout</a> -->
 
               </tbody>
@@ -167,9 +162,13 @@ if(isset($_POST['update'])) {
 
 
 
-
           </div><!-- End blog entries list -->
-
+					<div class="col-lg-10">
+					</div>
+					<div class="col-lg-1">
+					<button type="submit" name="bayar" class="btn-right btn btn-success">Bayar</button>
+					</div>
+					</form>
           <!-- <div class="col-lg-4">
             <div class="sidebar">
               <div class="sidebar-item recent-posts">

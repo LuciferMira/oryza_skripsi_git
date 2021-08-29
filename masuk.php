@@ -15,7 +15,7 @@
       $data = mysqli_fetch_array($login);
       $akses = $data['akses'];
       session_start();
-      $_SESSION['idusr'] = $data['id_user'];
+      $_SESSION['idusr'] = $data['id'];
       $_SESSION['nama'] = $data['nama_pengguna'];
       $_SESSION['tgl'] = $data['tanggal_lahir'];
       $_SESSION['tmpt'] = $data['tempat_lahir'];
