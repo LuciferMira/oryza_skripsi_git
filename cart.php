@@ -62,7 +62,6 @@ if(isset($_POST['update'])) {
       <div class="container">
         <ol>
           <li><a href="index.php">Beranda</a></li>
-          <li><a href="detailproduk.php">Detail Produk</a></li>
           <li>Belanjaanku</li>
         </ol>
       </div>
@@ -152,10 +151,15 @@ if(isset($_POST['update'])) {
               <h6>Total Harga : Rp. <?= $s ?>,00</h6>
 
               <hr>
-							<?php if(isset($_SESSION['nama'])){?>
+							<?php if(isset($_SESSION['nama']) && $_SESSION['cart']!=null){?>
               <a href="checkout.php" class="btn btn-warning btn-block">
                         <i class="icofont-bill-alt"> </i> Checkout
               </a>
+							<?php }elseif(isset($_SESSION['nama']) && $_SESSION['cart']==null){?>
+              <!--<a href="checkout.php" class="btn btn-warning btn-block">-->
+                        <!--<i class="icofont-bill-alt"> </i> -->
+                        Pilih Barang Terlebih Dahulu
+              <!--</a>-->
 							<?php }else{ ?>
 							<a href="masuk.php" class="btn btn-success btn-block">
                         <i class="icofont-bill-alt"> </i> Masuk

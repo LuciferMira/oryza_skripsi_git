@@ -56,7 +56,7 @@
 
     <div class="container">
       <div class="copyright">
-        <div class="footer-top" style="background-color: #f9cf37;">
+        <div class="footer" style="background-color: #f9cf37;">
         &copy; Copyright 2021 <strong><span>Oryza</span></strong>
       </div>
     </div>

@@ -38,7 +38,7 @@
                                         <a href="tambahdataproduk.php"class="btn btn-primary btn-block" style="color: white;"><i class="fa fa-plus"></i> Tambah Data</a>
                                     </div>
                                     <div class="col-lg-2">
-                                         <a href="cetakproduk.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a>
+                                         <a target="_blank" href="cetakproduk.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a>
                                     </div>
 
                                 </div>

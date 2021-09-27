@@ -8,7 +8,7 @@
     $tlp = $_POST['telepon'];
     $password = MD5($_POST['password']);
 
-    $query = mysqli_query($koneksi, "INSERT INTO user VALUES('','$nama','$email','$password','$tmpt','$tgl','$alamat','$tlp','admin')");
+    $query = mysqli_query($koneksi, "INSERT INTO user VALUES(NULL,'$nama','$email','$password','$tmpt','$tgl','$alamat','$tlp','admin')");
     if($query){
       header('location:dataadmin.php?stat=input_berhasil');
     }else{

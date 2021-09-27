@@ -1,8 +1,25 @@
+<?php
+ob_start();
+require_once('config/koneksi.php');
+if(isset($_POST['btn_submit'])){
+  $nama = $_POST['nama_pengguna'];
+  $tgl_lahir = $_POST['tanggal_lahir'];
+  $tempat = $_POST['tempat_lahir'];
+  $tlp = $_POST['telepon'];
+  $alamat = $_POST['alamat'];
+  $email = $_POST['email'];
+  $pass = md5($_POST['password']);
+
+  $insert = mysqli_query($koneksi, "INSERT INTO user VALUES(NULL,'$nama','$email','$pass','$tempat','$tgl_lahir','$alamat','$tlp','user')");
+  if($insert){
+    header('location:index.php?stat=input_berhasil');
+  }else{
+    header('location:daftaruser.php?stat=input_gagal');
+    // header('location:gagal.php');
+  }
+}
+?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,27 +43,6 @@
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 </head>
-
-        <?php
-  require_once('config/koneksi.php');
-  if(isset($_POST['btn_submit'])){
-    $nama = $_POST['nama_pengguna'];
-    $tgl_lahir = $_POST['tanggal_lahir'];
-    $tempat = $_POST['tempat_lahir'];
-    $tlp = $_POST['telepon'];
-    $alamat = $_POST['alamat'];
-    $email = $_POST['email'];
-    $pass = md5($_POST['password']);
-
-    $insert = mysqli_query($koneksi, "INSERT INTO user VALUES('','$nama','$email','$pass','$tempat','$tgl_lahir','$alamat','$tlp')");
-    if($insert){
-      header('location:daftaruser.php?stat=input_berhasil');
-    }else{
-      // header('location:daftaruser.php?stat=input_gagal');
-    }
-  }
-?>
-
 <body style="background-color: #e6e6e6;">
 
     <div class="sufee-login d-flex align-content-center flex-wrap">
@@ -92,8 +88,8 @@
                         <div class="checkbox">
 
                         </div>
-                        <button a href="masuk.php" type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30" name="btn_submit">Daftar</button>
-                        <a href="masuk.php"></a>
+                        <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30" name="btn_submit">Daftar</button>
+                        <!-- <a href="masuk.php"></a> --><br><br>
                         <div class="register-link m-t-15 text-center">
                             <p>Sudah Punya Akun ? <a href="masuk.php"> Masuk</a></p>
                         </div>

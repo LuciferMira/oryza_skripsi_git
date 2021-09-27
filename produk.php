@@ -71,7 +71,14 @@ Pada salah satu tahap pemrosesan hasil panen padi, gabah ditumbuk dengan lesung 
 
 
               <div class="entry-content">
-                <p>Rp. <?= $data['harga'] ?></p>
+                <p>Rp. <?= $data['harga'] ?> / <?= $data['berat'] ?> Kg</p>
+                <?php if($data['stok']>0){
+                  $stok = "Ready stok ".$data['stok']." Pcs";
+                }else{
+                  $stok = "Stok Kosong, Silahkan Pesan Terlebih Dahulu";
+                }
+                  ?>
+                <p><?= $stok; ?></p>
                 <p>
                 <?=$data['deskripsi']?>
                 </p>

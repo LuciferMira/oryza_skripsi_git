@@ -63,13 +63,13 @@
                                             $query = mysqli_query($koneksi, "SELECT transaksi.id_pesanan as idp, id_user, nama_pengguna, email, alamat, telepon, detail_transaksi.id_produk as idb, produk.nama as nama_produk, harga_satuan, detail_transaksi.jumlah_beli as qty, subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi FROM transaksi
                                                     INNER JOIN user ON user.id = transaksi.id_user
                                                     INNER JOIN detail_transaksi ON detail_transaksi.id_pesanan = transaksi.id_pesanan
-                                                    INNER JOIN produk ON produk.id = detail_transaksi.id_produk");
+                                                    INNER JOIN produk ON produk.id = detail_transaksi.id_produk GROUP BY transaksi.id_pesanan ORDER BY transaksi.id_pesanan DESC");
                                             $row = mysqli_num_rows($query);
                                             if($row>0){
                                             while($data = mysqli_fetch_array($query)){
                                         ?>
                                         <tr>
-                                            <td class="serial"><?php echo$no;?></td>
+                                            <td class="serial"><?php echo$no++;?></td>
                                             <td><span class="count"><?=$data['idp'];?></span> </td>
                                             <td><span class="coount"><?=$data['idb'];?></span> </td>
                                             <td><span class="name"><?=$data['nama_pengguna'];?></span> </td>

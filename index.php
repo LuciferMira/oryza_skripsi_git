@@ -19,7 +19,7 @@
             <div class="row justify-content-end">
               <div class="col-lg-6 col-md-6 col-6 d-md-flex align-items-md-stretch">
                 <div class="count-box py-5">
-                 
+
                 </div>
               </div>
 
@@ -31,18 +31,19 @@
 
           <div class="col-lg-6 video-box align-self-baseline">
            <!--  <img src="img/sawah3.jpg" class="img-fluid" alt=""> -->
-            <video width="550" height="auto" controls > 
-            <source src="video/video.mp4" type="video/mp4" class="venobox play-btn mb-8" data-vbtype="video/webm" data-autoplay="true" alt=""/>
+            <video width="550" height="auto" controls >
+            <!-- <source src="video/video.mp4" type="video/mp4" class="venobox play-btn mb-8" data-vbtype="video/mp4" data-autoplay="true" alt=""/> -->
+            <source src="video/video.webm" type="video/webm" class="venobox play-btn mb-8" data-vbtype="video/webm" data-autoplay="true" alt=""/>
             <!-- </img> -->
             </video>
           </div>
-            
- <!--        
+
+ <!--
   <video controls>
     <source src="video/vidMP4" type="video/webm">
   </video> -->
-            
-            
+
+
 
           <div class="col-lg-6 pt-3 pt-lg-0 content">
             <h3>Beras</h3>
@@ -55,7 +56,7 @@
               <li><i class="bx bx-check-double"></i> Beras Medium.</li>
             </ul>
             <p>
-              Berbagai macam produk dari Pabrik Oryza banyak diminati oleh masyrakat setempat. Dan Oryza memasarkan produknya ke Rumah Makan, Supermarket, Toko Beras dan Pasar- Pasar di daerah terdekatnya. 
+              Berbagai macam produk dari Pabrik Oryza banyak diminati oleh masyrakat setempat. Dan Oryza memasarkan produknya ke Rumah Makan, Supermarket, Toko Beras dan Pasar- Pasar di daerah terdekatnya.
             </p>
           </div>
 

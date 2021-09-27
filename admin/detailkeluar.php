@@ -22,7 +22,7 @@ if(isset($_GET['id'])){
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li><a href="index.php">Dashboard</a></li>
-                                    <li class="active">Data Transaksi</li>
+                                    <li class="active">Data Barang Keluar</li>
                                 </ol>
                             </div>
                         </div>

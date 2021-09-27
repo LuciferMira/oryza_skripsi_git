@@ -59,9 +59,13 @@ require_once("head.php");
               if($row!=0){
                 require_once dirname(__FILE__) . '/midtrans-php-master/Midtrans.php';
                 //Set Your server key
-                Config::$serverKey = "SB-Mid-server-9yJRpPxgIp1Ii_54-vP3g2HO";
+                Config::$serverKey = "SB-Mid-server-4uHbo_Y2iqeo4KdL_DMQbt_c";
                 $status = Transaction::status($row['idp']);
                 $setstat = $status->transaction_status;
+                $code = $status->status_code;
+                if($code=404){
+                    $stat = "Transaksi Tidak Terdaftar";
+                }
                 switch ($setstat) {
                   case 'capture':
                     $stat = "Pembayaran Lunas dan Terverifikasi";
@@ -91,7 +95,7 @@ require_once("head.php");
                     $stat = "Transaksi Dalam Proses Verifikasi Oleh Admin";
                     break;
                   default:
-                    "Status Transaksi Tidak Diketahui, Mohon Kontak Admin";
+                    "Transaksi Tidak Terdaftar";
                     break;
                 }
                 ?>
@@ -104,7 +108,8 @@ require_once("head.php");
                   <td><?php echo $row['harga_satuan']; ?></td> -->
                   <td><?= $row['total'] ?></td>
                   <td><?php echo $row['alamat_penerima']; ?></td>
-                  <td><?php echo $stat; ?></td>
+                  <td><?php if($stat==null){ "error"; }else{ echo $stat;} ?></td>
+                  <!--<td><?php echo $code; ?></td>-->
                   <!-- <td>
                     <a href="dltcart.php" class="btn btn-danger">
                       <i class="icofont-trash"></i>

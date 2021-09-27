@@ -1,5 +1,6 @@
 <?php
   ob_start();
+  error_reporting(0);
   require_once('../config/koneksi.php');
   require_once('session_admin.php');
 ?>

@@ -64,7 +64,6 @@ if(isset($_POST['update'])) {
       <div class="container">
         <ol>
           <li><a href="index.php">Beranda</a></li>
-          <li><a href="detailproduk.php">Detail Produk</a></li>
           <li>Checkout</li>
         </ol>
       </div>

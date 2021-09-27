@@ -1,7 +1,7 @@
 <?php require_once("head.php");
         // <!-- Header-->
 require_once("../config/koneksi.php");
-    if(isset($_POST['btn_simpan'])){
+  if(isset($_POST['btn_simpan'])){
   $barang = $_POST['nama_pengguna'];
   $harga = $_POST['email'];
   $berat = $_POST['tempat_lahir'];
@@ -17,8 +17,6 @@ require_once("../config/koneksi.php");
         }else{
           header('location:user.php?status=input_gagal');
         }
-
-
   }
   ?>
 
@@ -58,11 +56,11 @@ require_once("../config/koneksi.php");
                                     <div class="col-lg-8">
                                         <h4 class="card-title">Data User</h4>
                                     </div>
-                                    <div class="col-lg-2">
+                                    <!-- <div class="col-lg-2">
                                         <a href="payment.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Pay</a>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <a href="cetak.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a>
+                                    </div> -->
+                                    <div class="col-lg-4">
+                                        <a target="_blank" href="cetakuser.php" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a>
                                     </div>
 
                                 </div>
@@ -92,7 +90,7 @@ require_once("../config/koneksi.php");
 
 
                                           <tr>
-                                           <td><?php echo$no;?></td>
+                                           <td><?php echo$no++;?></td>
                                            <td><?=$data['id']?></td>
                                            <td><?=$data['nama_pengguna']?></td>
                                             <td><?=$data['email']?></td>

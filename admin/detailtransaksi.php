@@ -6,12 +6,17 @@ $id= $_GET['id'];
 $query = mysqli_query($koneksi, "SELECT transaksi.id_pesanan as idp, id_user, nama_pengguna, email, alamat, telepon, detail_transaksi.id_produk as idb, produk.nama as nama_produk, harga_satuan, detail_transaksi.jumlah_beli as qty, subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi FROM transaksi
         INNER JOIN user ON user.id = transaksi.id_user
         INNER JOIN detail_transaksi ON detail_transaksi.id_pesanan = transaksi.id_pesanan
-        INNER JOIN produk ON produk.id = detail_transaksi.id_produk WHERE transaksi.id_pesanan = $id");
+        INNER JOIN produk ON produk.id = detail_transaksi.id_produk
+        LEFT JOIN barang_keluar ON transaksi.id_pesanan = barang_keluar.id_pesanan WHERE transaksi.id_pesanan = $id");
 $data = mysqli_fetch_array($query);
 require_once dirname(__FILE__) . '/../midtrans-php-master/Midtrans.php';
 //Set Your server key
-Config::$serverKey = "SB-Mid-server-9yJRpPxgIp1Ii_54-vP3g2HO";
+Config::$serverKey = "SB-Mid-server-4uHbo_Y2iqeo4KdL_DMQbt_c";
 $status = Transaction::status($data['idp']);
+$code = $status->status_code;
+if($code=404){
+    $stat = "Transaksi Tidak Terdaftar";
+}
 $setstat = $status->transaction_status;
 switch ($setstat) {
   case 'capture':
@@ -107,9 +112,37 @@ switch ($setstat) {
          </div>
          <div class="form-group">
            <label for="exampleInputEmail1">Status Bayar</label>
-           <input readonly value="<?= $stat ?>" type="text" name="status" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+           <input readonly value="<?php if($stat==null){ "error"; }else{ echo $stat;} ?>" type="text" name="status" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
          </div><hr>
-         <label for="exampleInputEmail1">Detail Pesanan</label>
+         <div class="row">
+          <div class="col-lg-6">
+              <h4 class="card-title">Detail Transaksi</h4>
+          </div>
+
+
+          <div class="col-lg-4">
+            <form action="cetaksuratjalan.php" method="post">
+              <input type="hidden" name="idp" value="<?=$data['idp']?>">
+              <select class="form-control" name="data-keluar">
+                 <option>--Pilih Tanggal Keluar--</option>
+                 <?php
+                 $query1 = mysqli_query($koneksi, "SELECT transaksi.id_pesanan as idp, id_user, nama_pengguna, email, alamat, telepon, detail_transaksi.id_produk as idb, produk.nama as nama_produk, harga_satuan, detail_transaksi.jumlah_beli as qty,
+                        subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi, qty_kirim, tanggal_keluar FROM transaksi
+                         INNER JOIN user ON user.id = transaksi.id_user
+                         INNER JOIN detail_transaksi ON detail_transaksi.id_pesanan = transaksi.id_pesanan
+                         INNER JOIN produk ON produk.id = detail_transaksi.id_produk
+                         LEFT JOIN barang_keluar ON transaksi.id_pesanan = barang_keluar.id_pesanan WHERE transaksi.id_pesanan='$id'");
+                 while($d = mysqli_fetch_array($query1)){?>
+                   <option value="<?= $d['tanggal_keluar'] ?>"><?= $d['tanggal_keluar']?></option>
+                 <?php } ?>
+              </select>
+          </div>
+          <div class="col-lg-2">
+               <!-- <a href="cetaktransaksi.php?tgl=" class="btn btn-success btn-block " style="color: white;"><i class="fa fa-print"></i> Cetak</a> -->
+               <input type="submit" class="btn btn-success btn-block " style="color: white;" value="Cetak">
+          </div>
+        </form>
+        </div>
          <hr>
          <div class="table-stats order-table ov-h">
              <table class="table ">
@@ -122,6 +155,7 @@ switch ($setstat) {
                          <th>Harga Satuan</th>
                          <th>Subtotal</th>
                          <th>Terkirim</th>
+                         <th>Tanggal Kirim</th>
                          <th>Aksi</th>
                      </tr>
                  </thead>
@@ -129,10 +163,11 @@ switch ($setstat) {
                      <?php
                          $no = 1;
                          $query = mysqli_query($koneksi, "SELECT transaksi.id_pesanan as idp, id_user, nama_pengguna, email, alamat, telepon, detail_transaksi.id_produk as idb, produk.nama as nama_produk, harga_satuan, detail_transaksi.jumlah_beli as qty,
-                                subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi, qty_kirim FROM transaksi
+                                subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi, qty_kirim, tanggal_keluar FROM transaksi
                                  INNER JOIN user ON user.id = transaksi.id_user
                                  INNER JOIN detail_transaksi ON detail_transaksi.id_pesanan = transaksi.id_pesanan
-                                 INNER JOIN produk ON produk.id = detail_transaksi.id_produk WHERE transaksi.id_pesanan='$id'");
+                                 INNER JOIN produk ON produk.id = detail_transaksi.id_produk
+                                 LEFT JOIN barang_keluar ON transaksi.id_pesanan = barang_keluar.id_pesanan WHERE transaksi.id_pesanan='$id'");
                          $row = mysqli_num_rows($query);
                          if($row>0){
                          while($data = mysqli_fetch_array($query)){
@@ -145,7 +180,14 @@ switch ($setstat) {
                          <td><span class="count"><?=$data['harga_satuan'];?></span></td>
                          <td><span class="name"><?=$data['subtotal'];?></span> </td>
                          <td><span class="count"><?=$data['qty_kirim'];?></span> </td>
-                         <td><a href="pengiriman.php?id=<?= $data['idp'] ?>" class="badge badge-warning">Kirim Barang</a></td>
+                         <td><span class="name"><?=date('d-M-Y',strtotime($data['tanggal_keluar']));?></span> </td>
+                         <td>
+                           <?php if($data['qty']==$data['qty_kirim']){ ?>
+                             <span class="name">Barang Sudah Terkirim</span>
+                           <?php }else{ ?>
+                           <a href="pengiriman.php?id=<?= $data['idp'] ?>" class="badge badge-warning">Kirim Barang</a>
+                           <?php } ?>
+                         </td>
                      </tr>
                      <tr>
                        <td colspan="4"></td>

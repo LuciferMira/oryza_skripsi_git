@@ -1,63 +1,40 @@
 <?php
-include '../config/koneksi.php';
-require('assets/pdf/fpdf.php');
+require_once('../config/koneksi.php');
+$tgl = date('d-m-Y');
+$query = mysqli_query($koneksi,"SELECT * FROM produk ORDER BY nama");
 
-$pdf = new FPDF("L","cm","A4");
-
-$pdf->SetMargins(2,1,1);
-$pdf->AliasNbPages();
+require_once('assets/pdf/fpdf.php');
+$pdf = new FPDF('l','mm','A4');
 $pdf->AddPage();
-$pdf->SetFont('Times','B',11);
-$pdf->Image('../img/logo.png',1,1,2,2);
-$pdf->SetX(4);            
-$pdf->MultiCell(19.5,0.5,'PABRIK BERAS ORYZA',0,'L');
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'Telpon : 085920681351',0,'L');    
-$pdf->SetFont('Arial','B',10);
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'	Dsn. Citimun ',0,'L');
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'website : www.pabrikberasoryza.rf.gd email : pabrikberasoryza@gmail.com',0,'L');
-$pdf->Line(1,3.1,28.5,3.1);
-$pdf->SetLineWidth(0.1);      
-$pdf->Line(1,3.2,28.5,3.2);   
-$pdf->SetLineWidth(0);
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',14);
-$pdf->Cell(25.5,0.7,"Laporan Data Produk",0,10,'C');
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(5,0.7,"Di cetak pada : ".date("D-d/m/Y"),0,0,'C');
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',10);
-//26
-$pdf->Cell(1, 1, 'No', 1, 0, 'C');
-$pdf->Cell(1, 1, 'Id', 1, 0, 'C');
-$pdf->Cell(5, 1, 'Nama Produk', 1, 0, 'C');
-$pdf->Cell(4, 1, 'Harga', 1, 0, 'C');
-$pdf->Cell(3, 1, 'Berat', 1, 0, 'C');
-$pdf->Cell(2, 1, 'Stok', 1, 0, 'C');
-$pdf->Cell(3, 1, 'Kategori', 1, 1, 'C');
+$pdf->SetTitle('LAPORAN DATA PRODUK');
+$pdf->SetFont('Arial','B','16');
+$pdf->Cell(0,0,'Laporan Data Produk', 0, 2, 'L');
 
-$pdf->SetFont('Arial','',10);
-$no=1;
-$query=mysqli_query($koneksi, "select * from produk");
-while($lihat=mysqli_fetch_array($query)){
-	//26
-	$pdf->Cell(1, 1, $no , 1, 0, 'C');
-	$pdf->Cell(1, 1, $lihat['id'],1, 0, 'C');
-	$pdf->Cell(5, 1, $lihat['nama'],1, 0, 'C');
-	$pdf->Cell(4, 1, $lihat['harga'], 1, 0,'C');
-	$pdf->Cell(3, 1, $lihat['berat'],1, 0, 'C');
-	$pdf->Cell(2, 1, $lihat['stok'], 1, 0,'C');
-	$pdf->Cell(3, 1, $lihat['kategori'], 1, 1,'C');
+$pdf->SetFont('Arial','B','16');
+$pdf->Cell(20,20,'Pabrik Oryza ', 0, 1, 'L');
 
-	// $pdf->Cell(10, 0.8, $lihat['deskripsi'],1, 0, 'C');
-	// $pdf->Cell(2, 0.8, $lihat['gambar'], 1, 1,'C');
-	$no++;
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(10,10,'No',1,0);
+$pdf->Cell(40,10,'Nama',1,0);
+$pdf->Cell(50,10,'Foto',1,0);
+$pdf->Cell(40,10,'Harga',1,0);
+$pdf->Cell(20,10,'Berat',1,0);
+$pdf->Cell(20,10,'Stok',1,0);
+$pdf->Cell(40,10,'Kategori',1,1);
+
+$pdf->SetFont('Arial','B',10);
+$no = 1;
+//$data = mysqli_query($con,"SELECT * FROM tbl_pasien ORDER BY id_pasien");
+while($d = mysqli_fetch_array($query)){
+  $pdf->Cell(10,30,$no++,1,0);
+  $pdf->Cell(40,30,$d['nama'],1,0);
+  $pdf->Cell(50,20,$pdf->Image("images/produk/".$d['gambar'], $pdf->GetX(), $pdf->GetY(), 33.78),1,0);
+  $pdf->Cell(40,30,$d['harga'],1,0);
+  $pdf->Cell(20,30,$d['berat'],1,0);
+  $pdf->Cell(20,30,$d['stok'],1,0);
+  $pdf->Cell(40,30,$d['kategori'],1,1);
 }
 
-$pdf->Output("laporan_barang.pdf","I");
-
+$pdf->Output("DataProduk - Oryza - ".$tgl.".pdf","D");
+// $pdf->Output();
 ?>
-

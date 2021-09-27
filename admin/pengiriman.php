@@ -20,7 +20,7 @@ if(isset($_POST['btn_simpan'])){
   $idproduk = $_POST['idb'];
   $tgl_keluar = $_POST['tgl'];
   $jml = $_POST['jml'];
-  $query = mysqli_query($koneksi, "INSERT INTO barang_keluar VALUES('','$idpesanan','$idproduk','$tgl_keluar','$jml')");
+  $query = mysqli_query($koneksi, "INSERT INTO barang_keluar VALUES(null,'$idpesanan','$idproduk','$tgl_keluar','$jml')");
   if($query){
     $up = mysqli_query($koneksi, "UPDATE detail_transaksi SET qty_kirim = '$jml' WHERE id_pesanan = '$idpesanan'");
 

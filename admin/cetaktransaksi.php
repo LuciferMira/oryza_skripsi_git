@@ -1,66 +1,41 @@
 <?php
-include '../config/koneksi.php';
-require('assets/pdf/fpdf.php');
+require_once('../config/koneksi.php');
+$tgl = date('d-m-Y');
+$query = mysqli_query($koneksi, "SELECT transaksi.id_pesanan as idp, id_user, nama_pengguna, email, alamat, telepon, detail_transaksi.id_produk as idb, produk.nama as nama_produk, harga_satuan, detail_transaksi.jumlah_beli as qty, subtotal, total, nama_penerima, alamat_penerima, telp_penerima, tanggal_transaksi FROM transaksi
+        INNER JOIN user ON user.id = transaksi.id_user
+        INNER JOIN detail_transaksi ON detail_transaksi.id_pesanan = transaksi.id_pesanan
+        INNER JOIN produk ON produk.id = detail_transaksi.id_produk");
 
-$pdf = new FPDF("L","cm","A4");
-
-$pdf->SetMargins(2,1,1);
-$pdf->AliasNbPages();
+require_once('assets/pdf/fpdf.php');
+$pdf = new FPDF('l','mm','A4');
 $pdf->AddPage();
-$pdf->SetFont('Times','B',11);
-$pdf->Image('../img/logo.png',1,1,2,2);
-$pdf->SetX(4);            
-$pdf->MultiCell(19.5,0.5,'PABRIK BERAS ORYZA',0,'L');
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'Telpon : 085920681351',0,'L');    
-$pdf->SetFont('Arial','B',10);
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'	Desa Naluk ',0,'L');
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'website : www.pabrikberasoryza.rf.gd email : pabrikberasoryza@gmail.com',0,'L');
-$pdf->Line(1,3.1,28.5,3.1);
-$pdf->SetLineWidth(0.1);      
-$pdf->Line(1,3.2,28.5,3.2);   
-$pdf->SetLineWidth(0);
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',14);
-$pdf->Cell(25.5,0.7,"Laporan Data Transaksi",0,10,'C');
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(5,0.7,"Di cetak pada : ".date("D-d/m/Y"),0,0,'C');
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',10);
-//26
-$pdf->Cell(1, 1, 'No', 1, 0, 'C');
-$pdf->Cell(2, 1, 'Id Pesanan', 1, 0, 'C');
-$pdf->Cell(2, 1, 'Id Barang', 1, 0, 'C');
-$pdf->Cell(4, 1, 'Nama', 1, 0, 'C');
-$pdf->Cell(3, 1, 'Jumlah', 1, 0, 'C');
-$pdf->Cell(3, 1, 'Bayar', 1, 0, 'C');
-$pdf->Cell(8, 1, 'Alamat', 1, 0, 'C');
-$pdf->Cell(4, 1, 'Telepon', 1, 1, 'C');
+$pdf->SetTitle('LAPORAN DATA TRANSAKSI');
+$pdf->SetFont('Arial','B','16');
+$pdf->Cell(0,0,'Laporan Data Transaksi', 0, 2, 'L');
 
-$pdf->SetFont('Arial','',10);
-$no=1;
-$query=mysqli_query($koneksi, "select * from transaksi");
-while($lihat=mysqli_fetch_array($query)){
-	//26
-	$pdf->Cell(1, 1, $no , 1, 0, 'C');
-	$pdf->Cell(2, 1, $lihat['id_pesanan'],1, 0, 'C');
-	$pdf->Cell(2, 1, $lihat['id_barang'],1, 0, 'C');
-	$pdf->Cell(4, 1, $lihat['nama'], 1, 0,'C');
-	$pdf->Cell(3, 1, $lihat['jumlah'],1, 0, 'C');
-	$pdf->Cell(3, 1, $lihat['total_bayar'], 1, 0,'C');
-	$pdf->Cell(8, 1, $lihat['alamat'], 1, 0,'C');
-	$pdf->Cell(4, 1, $lihat['telepon'], 1, 1,'C');
+$pdf->SetFont('Arial','B','16');
+$pdf->Cell(20,20,'Pabrik Oryza ', 0, 1, 'L');
 
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(10,10,'No',1,0);
+$pdf->Cell(30,10,'Id Transaksi',1,0);
+$pdf->Cell(50,10,'Nama Konsumen',1,0);
+$pdf->Cell(40,10,'Total Bayar',1,0);
+$pdf->Cell(70,10,'Alamat',1,0);
+$pdf->Cell(40,10,'Tanggal Transaksi',1,1);
 
-	// $pdf->Cell(10, 0.8, $lihat['deskripsi'],1, 0, 'C');
-	// $pdf->Cell(2, 0.8, $lihat['gambar'], 1, 1,'C');
-	$no++;
+$pdf->SetFont('Arial','B',10);
+$no = 1;
+//$data = mysqli_query($con,"SELECT * FROM tbl_pasien ORDER BY id_pasien");
+while($d = mysqli_fetch_array($query)){
+  $pdf->Cell(10,10,$no++,1,0);
+  $pdf->Cell(30,10,$d['idp'],1,0);
+  $pdf->Cell(50,10,$d['nama_pengguna'],1,0);
+  $pdf->Cell(40,10,$d['total'],1,0);
+  $pdf->Cell(70,10,$d['alamat_penerima'],1,0);
+  $pdf->Cell(40,10,date('d-M-Y',strtotime($d['tanggal_transaksi'])),1,1);
 }
 
-$pdf->Output("laporan_barang.pdf","I");
-
+// $pdf->Output("DataTransaksi - Oryza - ".$tgl.".pdf","D");
+$pdf->Output();
 ?>
-

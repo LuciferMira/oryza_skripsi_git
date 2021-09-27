@@ -57,7 +57,7 @@
                                         <a href="tambahdataadmin.php" class="btn btn-primary btn-block" style="color: white;"><i class="fa fa-plus"></i> Tambah Data</a>
                                     </div>
                                     <div class="col-lg-2">
-                                        <a href="cetakadmin.php" class="btn btn-success btn-block" style="color: white;"><i class="fa fa-print"></i> Cetak</a>
+                                        <a target="_blank" href="cetakadmin.php" class="btn btn-success btn-block" style="color: white;"><i class="fa fa-print"></i> Cetak</a>
                                     </div>
 
                                 </div>
@@ -86,7 +86,7 @@
                                           while($data = mysqli_fetch_array($tampil)) {
                                           ?>
                                           <tr>
-                                            <td class="serial">1.</td>
+                                            <td class="serial"><?= $no++?></td>
                                             <td><span class="count"><?php echo $data['id']?></span> </td>
                                             <!-- <td class="avatar">
                                                 <div class="round-img"><span class="count"><?=$data['gambar'];?></span></td>

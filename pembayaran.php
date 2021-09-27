@@ -1,6 +1,5 @@
 <?php
 namespace Midtrans;
-// session_start();
 require_once 'config/koneksi.php';
 require_once 'session.php';
 require_once 'item.php';
@@ -19,8 +18,11 @@ $nama = $_POST['nama'];
 $alamat = $_POST['alamat'];
 $telp = $_POST['telp'];
 // Save new orders
-$sql1 = "INSERT INTO transaksi VALUES ('','$idu','$idbrg','$jml','$total','$tgl','$nama','$alamat','$telp')";
+$sql1 = "INSERT INTO transaksi VALUES (NULL,'$idu','$idbrg','$jml','$total','$tgl','$nama','$alamat','$telp')";
 $exe = mysqli_query($koneksi, $sql1);
+// $search = mysqli_query($koneksi, "SELECT id_pesanan FROM transaksi ORDER BY id_pesanan DESC LIMIT 1");
+// $data = mysqli_fetch_array($search);
+// $idp = $data['id_pesanan'];
   if($exe){
     $search = mysqli_query($koneksi, "SELECT id_pesanan FROM transaksi ORDER BY id_pesanan DESC LIMIT 1");
     $data = mysqli_fetch_array($search);
@@ -28,20 +30,23 @@ $exe = mysqli_query($koneksi, $sql1);
     // Save order details for new orders
     $cart = unserialize(serialize($_SESSION['cart']));
     for($i=0; $i<count($cart);$i++) {
-    $idpro = $cart[$i]->id;
-    $sathar = intval($cart[$i]->price);
-    $qtybel = intval($cart[$i]->quantity);
-    $subtotal = intval($cart[$i]->price) * intval($cart[$i]->quantity);
-    $sql2 = "INSERT INTO detail_transaksi VALUES ('$idp','$idpro', '$sathar', '$qtybel', '$subtotal')";
-    mysqli_query($koneksi, $sql2);
+      $idpro = $cart[$i]->id;
+      $sathar = intval($cart[$i]->price);
+      $qtybel = intval($cart[$i]->quantity);
+      $subtotal = intval($cart[$i]->price) * intval($cart[$i]->quantity);
+      $sql2 = "INSERT INTO detail_transaksi VALUES ('$idp','$idpro', '$sathar', '$qtybel', '$subtotal','0')";
+      mysqli_query($koneksi, $sql2);
+    }
+  }else{
+    header('location:index.php?stat=payment_failed');
+    // echo $idp;
   }
-}
 // Clear all product in cart
 unset($_SESSION['cart']);
 
 require_once dirname(__FILE__) . '/midtrans-php-master/Midtrans.php';
 //Set Your server key
-Config::$serverKey = "SB-Mid-server-9yJRpPxgIp1Ii_54-vP3g2HO";
+Config::$serverKey = "SB-Mid-server-4uHbo_Y2iqeo4KdL_DMQbt_c";
 
 // Uncomment for production environment
 // Config::$isProduction = true;
@@ -63,7 +68,7 @@ $transaction_details = array(
     'gross_amount' => intval($dat['total']), // no decimal allowed for creditcard
     // 'gross_amount' => 452, // no decimal allowed for creditcard
 );
-echo intval($dat['total']);
+// echo intval($dat['total']);
 // echo intval($detail['harga_satuan'])*intval($detail['qty']);
 
 $item_details = array();
@@ -73,7 +78,7 @@ $call1 = mysqli_query($koneksi,"SELECT transaksi.id_pesanan as idp, id_user, nam
         INNER JOIN produk ON produk.id = detail_transaksi.id_produk WHERE transaksi.id_pesanan = $idp");
 $z = 0;
 while($detail = mysqli_fetch_array($call1)){
-  echo $detail['harga_satuan']*$detail['qty'];
+//   echo $detail['harga_satuan']*$detail['qty'];
   $item_details[$z++] = array(
     'id' => $detail['idb'],
     'price' => intval($detail['harga_satuan']),
